@@ -1,0 +1,119 @@
+:root{
+    --primary:#FFC107 ;
+    --ink:#172033;
+    --surface:#F9FAFB;
+    --accent:#ffc107;
+}
+
+.btn-primary {
+    --bs-btn-bg: #4b3d14;               /* Color de fondo normal */
+    --bs-btn-border-color: #FFC107;     /* Color del borde normal */
+    --bs-btn-hover-bg: #c69504;         /* Color de fondo al pasar el cursor */
+    --bs-btn-hover-border-color: #684e01; /* Color del borde al pasar el cursor */
+    --bs-btn-active-bg: #172033;        /* Color al hacer clic */
+}
+
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,sans-serif;
+        color:var(--ink);background:var(--surface)}
+        .navbar{background:linear-gradient(90deg,#423101,#FFC107)}.navbar .nav-link{color:#ffffffc7}.navbar .nav-link.active,.navbar .nav-link:hover{color:#fff}.brand-mark{
+            display:inline-grid;
+            place-items:center;
+            width:32px;
+            height:32px;
+            background:var(--accent);
+            color:#172033;
+            border-radius:10px;
+            margin-right:.35rem}.hero{background:radial-gradient(circle at 15% 20%,#eef3ff 0,#fff 48%,#eef3ff 100%)}
+        .hero-card{position:relative;
+            background:#fff;
+            border-radius:24px;
+            padding:12px;
+            box-shadow:0 30px 70px #1f4fd633}
+            .hero-card img{height:420px;width:100%;object-fit:cover;border-radius:16px}
+            .hero-card-header{
+            display:flex;
+            gap:7px;
+            padding:5px 4px 12px}
+            .dot{width:9px;height:9px;
+            border-radius:50%;
+            background:#dce2ef}
+            .dot:first-child{background:#ff6b6b}
+            .dot:nth-child(2){background:#ffd43b}
+            .dot:nth-child(3){background:#51cf66}
+            .floating-card{
+            position:absolute;
+            left:-35px;
+            bottom:30px;
+            background:#fff;padding:18px 22px;
+            border-radius:16px;
+            box-shadow:0 18px 40px #1720332e;
+            display:flex;
+            flex-direction:column}.metric{background:#fff;border:1px solid #e7eaf0;border-radius:14px;padding:14px;
+                text-align:center;display:flex;
+                flex-direction:column}.metric span{font-size:.75rem;color:#6c757d}.section-heading{display:flex;justify-content:space-between;
+                align-items:end}.eyebrow{font-size:.75rem;text-transform:uppercase;letter-spacing:.14em;color:var(--primary);
+                font-weight:800}.student-task{display:flex;gap:16px;background:#fff;
+            border-left:5px solid var(--primary);
+            border-radius:14px;
+            padding:20px}.student-task-number{
+            display:grid;
+            place-items:center;
+            flex:0 0 40px;
+            height:40px;
+            border-radius:50%;
+            background:var(--primary);
+            color:#fff;font-weight:800}
+            .placeholder-product{
+            height:100%;
+            background:#fff;
+            border-radius:18px;
+            overflow:hidden;
+            box-shadow:0 10px 28px #17203314}
+            .placeholder-image{
+            height:210px;
+            background:repeating-linear-gradient(45deg,#eef1f7,#eef1f7 12px,#e5e9f1 12px,#e5e9f1 24px);
+            display:grid;
+            place-items:center;color:#7a8497;
+            font-weight:700}
+            .benefits{
+            background:#4f4320;
+            color:#fff}
+            .benefit-card p{
+            color:#aeb7c8
+            }
+            .footer{background:#2b2512;
+            color:#aeb7c8}
+            .sprint-summary{background:#f5f7fb;
+            border:1px solid #e3e7ef;
+            border-radius:12px;
+            padding:14px;
+            display:flex;
+            flex-direction:column}
+            .locked-module{
+            max-width:860px;
+            margin:40px auto;
+            text-align:center;
+            background:#fff;
+            border-radius:24px;
+            padding:48px;
+            box-shadow:0 18px 45px #17203317}
+            .locked-icon{
+            font-size:4rem}
+            .locked-card{
+            margin-top:28px;
+            text-align:left;
+            background:#f7f8fb;
+            border:1px dashed #b7c0d0;
+            border-radius:16px;
+            padding:24px}@media(
+            max-width:767px){
+            .floating-card{
+            position:static;
+            margin-top:10px}
+            .hero-card img{height:320px}
+            .locked-module{padding:30px 20px}
+            .section-heading{
+            align-items:start;
+            flex-direction:column}
+    }
