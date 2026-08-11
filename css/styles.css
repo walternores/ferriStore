@@ -5,6 +5,11 @@
     --accent:#ffc107;
 }
 
+.hover-white:hover {
+    color: #fff !important;
+    transition: color 0.2s ease-in-out;
+}
+
 .btn-primary {
     --bs-btn-bg: #4b3d14;               /* Color de fondo normal */
     --bs-btn-border-color: #FFC107;     /* Color del borde normal */
