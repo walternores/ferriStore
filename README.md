@@ -30,7 +30,7 @@ Las categorías ya definidas en el menú de navegación del sitio son:
 
 ---
 
-## 💻 Tecnologías Utilizadas
+## Tecnologías Utilizadas
 - **HTML5:** Estructura semántica.
 - **CSS3:** Estilos personalizados y diseño responsive.
 - **Bootstrap 5:** Framework para el sistema de grillas, componentes (navbar, cards, modales, toasts).
@@ -38,7 +38,7 @@ Las categorías ya definidas en el menú de navegación del sitio son:
 
 ---
 
-## 📂 Estructura General del Proyecto
+## Estructura General del Proyecto
 
 ```text
 ferriStore/
