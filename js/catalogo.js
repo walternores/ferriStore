@@ -71,26 +71,61 @@ const productos = [
         stock: 0,
         disponible: false,
         imagen: "assets/img/11.jpg"
+    },
+    {
+        id: 9,
+        nombre: "PULIDORA 180 MM 1400 W INGCO",
+        categoria: "HERRAMIENTAS",
+        precio: 3440.0,
+        stock: 3,
+        disponible: true,
+        imagen: "assets/img/19.jpg"
+    },
+    {
+        id: 10,
+        nombre: "TALADRO 13MM C/PERCUTOR 850W INGCO- VELOC.VARIABLE",
+        categoria: "HERRAMIENTAS",
+        precio: 2300.0,
+        stock: 5,
+        disponible: true,
+        imagen: "assets/img/20.jpg"
     }
 ];
 
 const contenedorCatalogo = document.querySelector("#catalogo");
 const cantidadProductos = document.querySelector("#cantidadProductos");
+const buscador = document.querySelector("#buscador");
+const filtroCategoria = document.querySelector("#filtroCategoria");
+const btnLimpiar = document.querySelector("#btnLimpiar");
+const sinResultados = document.querySelector("#sinResultados");
+
+function cargarCategorias() {
+    
+    const categorias = [...new Set(productos.map(producto => producto.categoria))];
+
+    categorias.forEach(categoria => {
+        const option = document.createElement("option");
+        option.value = categoria;
+        option.textContent = categoria;
+        filtroCategoria.appendChild(option);
+    });
+}
 
 function mostrarProductos(lista) {
-    
     contenedorCatalogo.innerHTML = "";
-   
     cantidadProductos.textContent = lista.length;
-   
+
+    if (lista.length === 0) {
+        sinResultados.classList.remove("d-none");
+    } else {
+        sinResultados.classList.add("d-none");
+    }
+
     lista.forEach(producto => {
-        
-        
         const estado = producto.disponible && producto.stock > 0 
             ? `<span class="badge text-bg-success">Disponible</span>` 
             : `<span class="badge text-bg-secondary">Sin stock</span>`;
 
-        
         const tarjeta = `
             <div class="col-sm-6 col-lg-4 col-xl-3">
                 <div class="card h-100 shadow-sm">
@@ -110,12 +145,35 @@ function mostrarProductos(lista) {
                 </div>
             </div>
         `;
-
-      
         contenedorCatalogo.innerHTML += tarjeta;
     });
 }
 
+function actualizarCatalogo() {
+    const textoBusqueda = buscador.value.trim().toLowerCase();
+    const categoriaSeleccionada = filtroCategoria.value;
+
+    // Filtramos por nombre Y por categoría (si no es "Todas")
+    const resultados = productos.filter(producto => {
+        const coincideNombre = producto.nombre.toLowerCase().includes(textoBusqueda);
+        const coincideCategoria = categoriaSeleccionada === "Todas" || producto.categoria === categoriaSeleccionada;
+        return coincideNombre && coincideCategoria;
+    });
+
+    mostrarProductos(resultados);
+}
+
+function limpiarFiltros() {
+    buscador.value = "";
+    filtroCategoria.value = "Todas";
+    actualizarCatalogo();
+}
+
+buscador.addEventListener("input", actualizarCatalogo);
+filtroCategoria.addEventListener("change", actualizarCatalogo);
+btnLimpiar.addEventListener("click", limpiarFiltros);
+
 document.addEventListener('DOMContentLoaded', () => {
-    mostrarProductos(productos);
+    cargarCategorias();
+    actualizarCatalogo(); // Muestra todos los productos al inicio
 });

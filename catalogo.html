@@ -31,22 +31,42 @@
     </nav>
     <main class='flex-grow-1'>
         <div class="container py-5">
-            
-            
-                
             <h1 class="mb-1">Catálogo de productos</h1>
-            <p class="text-secondary mb-4">Productos cargados dinámicamente desde JavaScript.</p>
+            <p class="text-secondary mb-4">Explora nuestra ferretería. Busca por nombre o filtra por categoría.</p>
 
-            <!-- Contador de productos -->
+            <!-- CONTROLES DE BÚSQUEDA Y FILTRO -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-5">
+                    <label for="buscador" class="form-label fw-bold">Buscar por nombre:</label>
+                    <input type="text" id="buscador" class="form-control" placeholder="Ej: Martillo, Taladro, Cinta...">
+                </div>
+                <div class="col-md-4">
+                    <label for="filtroCategoria" class="form-label fw-bold">Filtrar por categoría:</label>
+                    <select id="filtroCategoria" class="form-select">
+                        <option value="Todas">Todas las categorías</option>
+                        
+                    </select>
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button id="btnLimpiar" class="btn btn-outline-secondary w-100">Limpiar filtros</button>
+                </div>
+            </div>
+
+            
             <div class="mb-3">
                 <span class="text-secondary">Productos mostrados:</span>
                 <strong id="cantidadProductos">0</strong>
             </div>
 
-            <!-- Contenedor donde se insertarán las tarjetas -->
-            <div id="catalogo" class="row g-4"></div>   
-                
-                <a class="btn btn-primary mt-3" href="index.html">Volver al inicio</a>
+            
+            <div id="sinResultados" class="alert alert-warning mt-4 d-none">
+                <strong>No se encontraron productos.</strong> Probá cambiando el nombre o la categoría.
+            </div>
+
+            
+            <div id="catalogo" class="row g-4"></div>
+
+            <a class="btn btn-primary mt-3" href="index.html">Volver al inicio</a>
             
         </div>
     </main>
