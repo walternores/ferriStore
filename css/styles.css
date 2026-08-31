@@ -5,6 +5,11 @@
     --accent:#ffc107;
 }
 
+.hover-white:hover {
+    color: #fff !important;
+    transition: color 0.2s ease-in-out;
+}
+
 .btn-primary {
     --bs-btn-bg: #4b3d14;               /* Color de fondo normal */
     --bs-btn-border-color: #FFC107;     /* Color del borde normal */
@@ -29,7 +34,7 @@
             background:#fff;
             border-radius:24px;
             padding:12px;
-            box-shadow:0 30px 70px #1f4fd633}
+            box-shadow:0 30px 50px #d1b33933}
             .hero-card img{height:420px;width:100%;object-fit:cover;border-radius:16px}
             .hero-card-header{
             display:flex;

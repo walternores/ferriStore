@@ -1,24 +1,61 @@
-# Nexo Store — Proyecto Base
+# ferriStore - E-commerce de Herramientas
 
-Proyecto base entregado a los estudiantes para el desarrollo del curso.
+**Nombre del estudiante:** [Walter Ramón Nores Benítez]
 
-## Estado inicial
+---
 
-La estructura general del sistema ya se encuentra creada. En el **Sprint 1** únicamente se trabajará sobre la página de inicio. Los demás módulos serán desarrollados en los próximos sprints.
+## Descripción del E-commerce
+**ferriStore** es un proyecto de interfaz de usuario (UI) para un e-commerce de ferretería y herramientas. En su estado actual (Sprint 1), se ha desarrollado una landing page estática y responsiva utilizando HTML, CSS y el framework Bootstrap, dando los primeros pasos en la identidad visual y la estructura de navegación del sitio.
 
-## Sprint 1
+---
 
-Durante este sprint deberán:
+## Público Objetivo
+El diseño está orientado a:
+- **Profesionales y técnicos:** Constructores, electricistas y pintores.
+- **Aficionados al bricolaje:** Personas que realizan reparaciones y mejoras en el hogar.
 
-- Definir la temática y el público objetivo.
-- Crear la identidad visual del sitio (nombre, colores y tipografías).
-- Personalizar el hero principal.
-- Incorporar tarjetas estáticas de productos o servicios.
-- Utilizar HTML semántico y Bootstrap.
-- Garantizar un diseño responsive.
-- Agregar textos alternativos a las imágenes.
-- Mantener la navegación entre todas las páginas del proyecto.
+---
 
-## Ejecución
+## Categorías de Productos
+Las categorías ya definidas en el menú de navegación del sitio son:
+- Herramientas manuales
+- Herramientas eléctricas y a batería
+- Materiales de construcción
+- Fontanería (plomería) y tuberías
+- Electricidad e iluminación
+- Pinturas y acabados
+- Jardinería y exteriores
+- Equipo de protección personal
+- Cerrajería y seguridad
 
-Abrir el proyecto utilizando **Live Server** desde Visual Studio Code.
+---
+
+## Tecnologías Utilizadas
+- **HTML5:** Estructura semántica.
+- **CSS3:** Estilos personalizados y diseño responsive.
+- **Bootstrap 5:** Framework para el sistema de grillas, componentes (navbar, cards, modales, toasts).
+- **JavaScript (Vanilla):** Uso básico para la interacción de componentes de Bootstrap (sin lógica de backend).
+
+---
+
+## Estructura General del Proyecto
+
+```text
+ferriStore/
+├── index.html               # Página de inicio principal
+├── catalogo.html            # Página de catálogo (en desarrollo)
+├── producto.html            # Página de detalle de producto (en desarrollo)
+├── carrito.html             # Página de carrito de compras (en desarrollo)
+├── perfil.html              # Página de perfil de usuario (en desarrollo)
+├── admin.html               # Página de administración (en desarrollo)
+├── css/
+│   └── styles.css           # Estilos globales y personalizados
+├── js/
+│   ├── base.js              # Archivo JavaScript base (inicialización)
+│   └── pages/               # Archivos JS específicos por página (futuro)
+├── assets/                  # Recursos estáticos
+│   ├── img/                 # Imágenes de productos y banners
+│   ├── icons/               # Íconos y svg's
+│   └── logo/                # Logotipo de la marca (ferriStorehSmall.png)
+├── README.md                # Documentación del proyecto
+└── .gitignore               # Archivos a ignorar en el control de versiones

@@ -1,19 +1,165 @@
-<!doctype html><html lang='es'><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css"><title>Nexo Store | Catálogo</title></head><body class='d-flex flex-column min-vh-100' data-page='catalogo'><nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm"><div class="container">
-<a class="navbar-brand fw-bold" href="index.html"><span class="brand-mark">N</span> Nexo Store</a>
-<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
-<div class="collapse navbar-collapse" id="mainNav"><ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" data-page="inicio" href="index.html">Inicio</a></li>
-<li class="nav-item"><a class="nav-link" data-page="catalogo" href="catalogo.html">Catálogo</a></li>
-<li class="nav-item"><a class="nav-link" data-page="producto" href="producto.html">Producto</a></li>
-<li class="nav-item"><a class="nav-link" data-page="carrito" href="carrito.html">Carrito</a></li>
-<li class="nav-item"><a class="nav-link" data-page="perfil" href="perfil.html">Mi perfil</a></li>
-<li class="nav-item"><a class="nav-link" data-page="admin" href="admin.html">Administración</a></li></ul>
-<button class="btn btn-outline-light btn-sm" id="btnLoginPlaceholder">Ingresar</button></div></div></nav><main class='flex-grow-1'><div class="container py-5"><section class="locked-module"><div class="locked-icon">🚧</div>
-<span class="badge rounded-pill text-bg-warning mb-3">Sprint 2 · Semanas 5 a 8</span><h1>Catálogo, categorías, búsqueda y filtros</h1><p class="lead">Se construirá el catálogo dinámico.</p>
-<div class="locked-card"><h2 class="h5">Funcionalidad en desarrollo</h2><p>Este módulo forma parte de la arquitectura final, pero su código deberá desarrollarse en el sprint indicado.</p><ul><li>Objetos JavaScript</li><li>Tarjetas dinámicas</li><li>Categorías y filtros</li><li>Búsqueda</li><li>Ordenamiento</li><li>Mensaje sin resultados</li></ul></div>
-<a class="btn btn-outline-primary mt-3" href="index.html">Volver al inicio</a></section></div></main><footer class="footer py-4 mt-auto"><div class="container d-flex justify-content-between flex-wrap gap-2">
-<span>© 2026 Nexo Store · Proyecto integrador</span><span>Versión inicial para estudiantes</span></div></footer>
-<div class="toast-container position-fixed bottom-0 end-0 p-3"><div id="appToast" class="toast"><div class="toast-header"><strong class="me-auto">Nexo Store</strong><button class="btn-close" data-bs-dismiss="toast"></button></div><div class="toast-body" id="toastMessage"></div></div></div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="js/base.js"></script></body></html>
+<!doctype html>
+<html lang='es'>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>ferriStore | Catálogo</title>
+</head>
+
+<body class='d-flex flex-column min-vh-100' data-page='catalogo'>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html"><img src="assets/logo/ferriStoreSmall.png" class="img-fluid w-50 rounded" ></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" data-page="inicio" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" data-page="catalogo" href="catalogo.html">Catálogo</a></li>
+                    <li class="nav-item"><a class="nav-link" data-page="producto" href="producto.html">Producto</a></li>
+                    <li class="nav-item"><a class="nav-link" data-page="carrito" href="carrito.html">Carrito</a></li>
+                    <li class="nav-item"><a class="nav-link" data-page="perfil" href="perfil.html">Mi perfil</a></li>
+                    <li class="nav-item"><a class="nav-link" data-page="admin" href="admin.html">Administración</a></li>
+                </ul>
+                
+                <button class="btn btn-outline-light btn-sm" id="btnLoginPlaceholder">Ingresar</button>
+            </div>
+        </div>
+    </nav>
+    <main class='flex-grow-1'>
+        <div class="container py-5">
+            <h1 class="mb-1">Catálogo de productos</h1>
+            <p class="text-secondary mb-4">Explora nuestra ferretería. Busca por nombre o filtra por categoría.</p>
+
+            <!-- CONTROLES DE BÚSQUEDA Y FILTRO -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-5">
+                    <label for="buscador" class="form-label fw-bold">Buscar por nombre:</label>
+                    <input type="text" id="buscador" class="form-control" placeholder="Ej: Martillo, Taladro, Cinta...">
+                </div>
+                <div class="col-md-4">
+                    <label for="filtroCategoria" class="form-label fw-bold">Filtrar por categoría:</label>
+                    <select id="filtroCategoria" class="form-select">
+                        <option value="Todas">Todas las categorías</option>
+                        
+                    </select>
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button id="btnLimpiar" class="btn btn-outline-secondary w-100">Limpiar filtros</button>
+                </div>
+            </div>
+
+            
+            <div class="mb-3">
+                <span class="text-secondary">Productos mostrados:</span>
+                <strong id="cantidadProductos">0</strong>
+            </div>
+
+            
+            <div id="sinResultados" class="alert alert-warning mt-4 d-none">
+                <strong>No se encontraron productos.</strong> Probá cambiando el nombre o la categoría.
+            </div>
+
+            
+            <div id="catalogo" class="row g-4"></div>
+
+            <a class="btn btn-primary mt-3" href="index.html">Volver al inicio</a>
+            
+        </div>
+    </main>
+
+    <footer class="footer py-5 mt-auto bg-dark text-light">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Columna 1: Marca y proyecto -->
+                <div class="col-md-4 col-lg-3">
+                    <h5 class="fw-bold text-warning mb-3">ferriStore</h5>
+                    <p class="small text-secondary mb-2">
+                        Tu tienda de confianza para herramientas, construcción y ferretería.
+                    </p>
+                    <p class="small text-secondary mb-0">
+                        &copy; 2026 ferriStore. <br> Proyecto académico de Desarrollo Web.
+                    </p>
+                </div>
+
+                <!-- Columna 2: Información de contacto -->
+                <div class="col-md-4 col-lg-3">
+                    <h6 class="text-uppercase fw-bold mb-3">Contacto</h6>
+                    <ul class="list-unstyled small">
+                        <li class="d-flex align-items-center gap-2 mb-2">
+                            <!-- Icono Email SVG -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-warning" viewBox="0 0 16 16">
+                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.758 2.855L15 11.114v-5.73ZM.967 11.114l4.758-2.855L.967 5.384v5.73ZM14 14a1 1 0 0 0 1-1V6.868l-7 4.2-7-4.2V13a1 1 0 0 0 1 1h12Z"/>
+                            </svg>
+                            <span>contacto@ferristore.com</span>
+                        </li>
+                        <li class="d-flex align-items-center gap-2 mb-2">
+                            <!-- Icono Teléfono SVG -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-warning" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.526.632a1.054 1.054 0 0 1-.804-.273l-2.564-2.564a1.054 1.054 0 0 1-.273-.804l.632-2.526a.678.678 0 0 0-.122-.58L3.654 1.328z"/>
+                            </svg>
+                            <span>+598 1234 5678</span>
+                        </li>
+                        <li class="d-flex align-items-center gap-2">
+                            <!-- Icono Ubicación SVG -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-warning" viewBox="0 0 16 16">
+                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                            </svg>
+                            <span>Montevideo, Uruguay</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Columna 3: Enlaces principales -->
+                <div class="col-md-4 col-lg-3">
+                    <h6 class="text-uppercase fw-bold mb-3">Enlaces rápidos</h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-2"><a href="index.html" class="text-decoration-none text-light text-opacity-75 hover-white">Inicio</a></li>
+                        <li class="mb-2"><a href="catalogo.html" class="text-decoration-none text-light text-opacity-75 hover-white">Catálogo</a></li>
+                        <li class="mb-2"><a href="producto.html" class="text-decoration-none text-light text-opacity-75 hover-white">Productos</a></li>
+                        <li class="mb-2"><a href="carrito.html" class="text-decoration-none text-light text-opacity-75 hover-white">Carrito</a></li>
+                        <li><a href="perfil.html" class="text-decoration-none text-light text-opacity-75 hover-white">Mi perfil</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 4: Redes sociales simuladas -->
+                <div class="col-md-4 col-lg-3">
+                    <h6 class="text-uppercase fw-bold mb-3">Síguenos</h6>
+                    <p class="small text-secondary mb-3">Seguinos en nuestras redes para conocer las últimas novedades.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-light text-opacity-75 hover-white" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-light text-opacity-75 hover-white" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.297-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.173 0 8 0zm0 1.44c2.136 0 2.39.01 3.233.048.78.036 1.203.166 1.485.276.374.145.64.319.92.599.28.28.454.546.599.92.11.282.24.705.276 1.485.038.844.048 1.097.048 3.233s-.01 2.39-.048 3.232c-.036.78-.166 1.203-.276 1.485-.145.374-.319.64-.599.92-.28.28-.546.454-.92.599-.282.11-.705.24-1.485.276-.844.038-1.097.048-3.233.048s-2.39-.01-3.233-.048c-.78-.036-1.203-.166-1.485-.276a2.492 2.492 0 0 1-.92-.599 2.489 2.489 0 0 1-.599-.92c-.11-.282-.24-.705-.276-1.485-.038-.843-.048-1.096-.048-3.232s.01-2.39.048-3.233c.036-.78.166-1.203.276-1.485.145-.374.319-.64.599-.92.28-.28.546-.454.92-.599.282-.11.705-.24 1.485-.276.843-.038 1.096-.048 3.232-.048zM8 3.892a4.108 4.108 0 1 0 0 8.216 4.108 4.108 0 0 0 0-8.216zm0 6.776a2.668 2.668 0 1 1 0-5.336 2.668 2.668 0 0 1 0 5.336zm5.205-6.86a.96.96 0 1 1-1.92 0 .96.96 0 0 1 1.92 0z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-light text-opacity-75 hover-white" aria-label="Twitter / X">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </footer>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="appToast" class="toast">
+            <div class="toast-header"><strong class="me-auto">Nexo Store</strong><button class="btn-close"
+                    data-bs-dismiss="toast"></button></div>
+            <div class="toast-body" id="toastMessage"></div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/base.js"></script>
+    <script src="js/catalogo.js"></script>
+</body>
+
+</html>
