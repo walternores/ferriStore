@@ -31,10 +31,11 @@ Las categorías ya definidas en el menú de navegación del sitio son:
 ---
 
 ## Tecnologías Utilizadas
-- **HTML5:** Estructura semántica.
+- **HTML5:** Estructura semántica y accesible.
 - **CSS3:** Estilos personalizados y diseño responsive.
-- **Bootstrap 5:** Framework para el sistema de grillas, componentes (navbar, cards, modales, toasts).
-- **JavaScript (Vanilla):** Uso básico para la interacción de componentes de Bootstrap (sin lógica de backend).
+- **Bootstrap 5:** Framework para el sistema de grillas, componentes (navbar, cards, badges, modales, toasts) y utilidades.
+- **Bootstrap Icons:** Iconografía vectorial para una interfaz moderna.
+- **JavaScript (Vanilla):** Lógica de aplicación, manipulación del DOM, eventos, métodos de arreglos (`filter`, `find`, `forEach`, `map`, `slice`), `URLSearchParams` para la lectura de parámetros en la URL y `LocalStorage` (próximamente).
 
 ---
 
@@ -42,20 +43,21 @@ Las categorías ya definidas en el menú de navegación del sitio son:
 
 ```text
 ferriStore/
-├── index.html               # Página de inicio principal
-├── catalogo.html            # Página de catálogo (en desarrollo)
-├── producto.html            # Página de detalle de producto (en desarrollo)
-├── carrito.html             # Página de carrito de compras (en desarrollo)
-├── perfil.html              # Página de perfil de usuario (en desarrollo)
-├── admin.html               # Página de administración (en desarrollo)
+├── index.html               # Página de inicio (landing)
+├── catalogo.html            # Catálogo de productos (dinámico)
+├── producto.html            # Detalle individual de producto
+├── carrito.html             # Página de carrito (en desarrollo)
+├── perfil.html              # Página de perfil (en desarrollo)
+├── admin.html               # Panel de administración (en desarrollo)
 ├── css/
 │   └── styles.css           # Estilos globales y personalizados
 ├── js/
-│   ├── base.js              # Archivo JavaScript base (inicialización)
-│   └── pages/               # Archivos JS específicos por página (futuro)
-├── assets/                  # Recursos estáticos
-│   ├── img/                 # Imágenes de productos y banners
-│   ├── icons/               # Íconos y svg's
-│   └── logo/                # Logotipo de la marca (ferriStorehSmall.png)
+│   ├── base.js              # Lógica base (inicialización, eventos globales)
+│   ├── catalogo.js          # Array de productos, renderizado, filtros y búsqueda
+│   └── producto.js          # Lógica para mostrar el detalle de un producto
+├── assets/
+│   ├── img/                 # Imágenes de productos
+│   ├── icons/               # Íconos personalizados
+│   └── logo/                # Logotipo de la marca
 ├── README.md                # Documentación del proyecto
 └── .gitignore               # Archivos a ignorar en el control de versiones
