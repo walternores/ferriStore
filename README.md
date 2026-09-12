@@ -62,7 +62,7 @@ ferriStore/
 │   └── logo/                # Logotipo de la marca
 ├── README.md                # Documentación del proyecto
 └── .gitignore               # Archivos a ignorar en el control de versiones
-
+```
 ---
 
 ## Resumen de agregados y actualizaciones:
