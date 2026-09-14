@@ -8,6 +8,7 @@ const categoria = document.querySelector("#categoriaDetalle");
 const precio = document.querySelector("#precioDetalle");
 const disponible = document.querySelector("#disponibleDetalle");
 const stock = document.querySelector("#stockDetalle");
+const botonAgregar = document.querySelector(".botonAgregar");
 
 const parametros = new URLSearchParams(window.location.search);
 const idProducto = parametros.get("id");
@@ -21,8 +22,21 @@ function mostrarDetalle(producto) {
         nombre.textContent = producto.nombre;
         categoria.textContent = producto.categoria;
         precio.textContent = `$${producto.precio.toFixed(2)}`;
-        disponible.textContent = producto.disponible ? "Disponible" : "No disponible";
-        stock.textContent = `Stock: ${producto.stock}`;
+        
+        const stockDisponible = calcularStockDisponible(producto);
+        disponible.textContent = stockDisponible > 0 ? "Disponible" : "Sin stock";
+        stock.textContent = `Stock disponible: ${stockDisponible}`;
+        
+            if (botonAgregar) {
+            botonAgregar.dataset.id = producto.id;
+            if (stockDisponible <= 0) {
+                botonAgregar.disabled = true;
+                botonAgregar.textContent = "Sin stock disponible";
+            } else {
+                botonAgregar.disabled = false;
+                botonAgregar.textContent = "Agregar al carrito";
+            }
+        }
         
     } catch (e) {
         console.error("Error actualizando textos:", e);
@@ -34,7 +48,7 @@ function mostrarDetalle(producto) {
 
     if (fichaNombre) fichaNombre.textContent = producto.nombre;
     if (fichaCategoria) fichaCategoria.textContent = producto.categoria;
-    if (fichaStock) fichaStock.textContent = producto.stock;
+    if (fichaStock) fichaStock.textContent =calcularStockDisponible(producto);
 
     contenedorDetalle.classList.remove("d-none");
     
@@ -46,6 +60,14 @@ function mostrarError() {
 
 if (productoSeleccionado) {
     mostrarDetalle(productoSeleccionado);
+    if (botonAgregar) {
+        botonAgregar.addEventListener("click", () => {
+            // Esperamos un tick para que carrito.js ya haya guardado en localStorage
+            setTimeout(() => {
+                mostrarDetalle(productoSeleccionado);
+            }, 100);
+        });
+    }
 } else {
     mostrarError();
 }

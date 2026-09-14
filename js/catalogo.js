@@ -30,31 +30,33 @@ function mostrarProductos(lista) {
     }
 
     lista.forEach(producto => {
-        const estado = producto.disponible && producto.stock > 0 
-            ? `<span class="badge text-bg-success">Disponible</span>` 
-            : `<span class="badge text-bg-secondary">Sin stock</span>`;
+       const stockDisponible = calcularStockDisponible(producto);
+    const estaDisponible = producto.disponible && stockDisponible > 0;
 
-        const tarjeta = `
-            <div class="col-sm-6 col-lg-4 col-xl-3">
-                <div class="card h-100 shadow-sm">
-                    <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}" style="height: 180px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column">
-                        <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
-                            <span class="badge text-bg-light border">${producto.categoria}</span>
-                            ${estado}
-                        </div>
-                        <h5 class="card-title h6">${producto.nombre}</h5>
-                        <p class="text-secondary small mb-3">Stock: ${producto.stock} unidades</p>
-                        <div class="mt-auto d-flex justify-content-between align-items-center">
-                            <strong class="fs-5">$ ${producto.precio.toLocaleString("es-UY")}</strong>
-                            <a href="producto.html?id=${producto.id}" class="btn btn-primary btn-sm">Ver más</a>
-                        </div>
-                    </div>
+    const estado = estaDisponible
+        ? `<span class="badge text-bg-success">Disponible</span>`
+        : `<span class="badge text-bg-secondary">Sin stock</span>`;
+
+    contenedorCatalogo.innerHTML += `
+    <div class="col-sm-6 col-lg-4 col-xl-3">
+        <div class="card h-100 shadow-sm">
+            <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}" style="height: 180px; object-fit: cover;">
+            <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start gap-2 mb-2 flex-wrap">
+                    <span class="badge text-bg-light border  text-truncate" style="max-width: 60%;" title="${producto.categoria}">${producto.categoria}</span>
+                    ${estado}
+                </div>
+                <h5 class="card-title h6">${producto.nombre}</h5>
+                <p class="text-secondary small mb-3">Stock disponible: ${stockDisponible} unidades</p>
+                <div class="mt-auto d-flex justify-content-between align-items-center">
+                    <strong class="fs-5">$ ${producto.precio.toLocaleString("es-UY")}</strong>
+                    <a href="producto.html?id=${producto.id}" class="btn btn-primary btn-sm">Ver más</a>
                 </div>
             </div>
-        `;
-        contenedorCatalogo.innerHTML += tarjeta;
-    });
+        </div>
+    </div>
+`;
+});
 }
 
 function actualizarCatalogo() {

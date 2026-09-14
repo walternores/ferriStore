@@ -76,3 +76,5 @@ ferriStore/
 - Se generan los productos desde JavaScript.
 - Se permite buscar y filtrar en el catálogo.
 - Se muestra el detalle de un producto seleccionado.
+- Se permite agregar los productos al carrito, quitar y modificar la cantidad, asi como calcular el total de la compra
+- Se genera persistencia de la compra en LocalStorage.
