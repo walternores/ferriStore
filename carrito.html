@@ -25,12 +25,22 @@
                     <li class="nav-item"><a class="nav-link" data-page="admin" href="admin.html">Administración</a></li>
                 </ul>
                 
-                <button id="btnIrCarrito" class="btn btn-light d-flex align-items-center position-relative" type="button" onclick="window.location.href='carrito.html'">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
-    </svg>
-    <span id="contadorCarrito" class="position-absolute top-0 start-100 translate-middle badge border border-dark rounded-pill text-bg-warning">0</span>
-</button>
+                <div class="d-flex align-items-right gap-3 py-2">
+                <button id="btnIrCarrito" class="btn btn-light d-flex align-items-center position-relative"
+                    type="button" onclick="window.location.href='carrito.html'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-cart" viewBox="0 0 16 16">
+                        <path
+                            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2">
+                        </path>
+                    </svg>
+                    <span id="contadorCarrito"
+                        class="position-absolute top-0 start-100 translate-middle badge border border-dark rounded-pill text-bg-warning">0</span>
+                </button>
+                
+                <button class="btn btn-outline-light btn-sm" id="btnLoginPlaceholder" onclick="window.location.href='ingresar.html'">Ingresar</button>
+                <button class="btn btn-outline-light btn-sm" id="btnRegisterPlaceholder" onclick="window.location.href='registrarse.html'">Registrarse</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -148,16 +158,8 @@
         </div>
     </footer>
 
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="appToast" class="toast">
-            <div class="toast-header"><strong class="me-auto">ferriStore</strong><button class="btn-close"
-                    data-bs-dismiss="toast"></button></div>
-            <div class="toast-body" id="toastMessage"></div>
-        </div>
-    </div>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/base.js"></script>
      <script src="js/datos.js"></script>  
      <script src="js/carrito.js"></script>
 </body>
