@@ -12,7 +12,7 @@ const productos = [
         id: "p2",
         nombre: "ALARGUE ENROLLADOR SL-2-5M",
         categoria: "ILUMINACIÓN, ELECTRICIDAD",
-        precio: 1250.0,
+        precio: 1200.0,
         stock: 6,
         disponible: true,
         imagen: "assets/img/12.jpg"
