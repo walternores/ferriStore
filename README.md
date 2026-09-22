@@ -76,8 +76,12 @@ ferriStore/
 - Se generan los productos desde JavaScript.
 - Se permite buscar y filtrar en el catálogo.
 - Se muestra el detalle de un producto seleccionado.
-<<<<<<< Updated upstream
-- Se permite agregar los productos al carrito, quitar y modificar la cantidad, asi como calcular el total de la compra
+- Se permite agregar los productos al carrito, quitar y modificar la cantidad, asi como calcular el total de la compra.
 - Se genera persistencia de la compra en LocalStorage.
-=======
->>>>>>> Stashed changes
+
+**Sprint 3**
+- Se genera registro de usuario.
+- Se permite inciar y cerrar sesión.
+- Se habilita acceso a perfil de usuario y modificar información personal.
+- Desde el perfil de usuario se permite cambio de contraseña.
+- Desde el perfil de usuario se permite la eliminación del usuario que inició sesión.

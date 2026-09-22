@@ -254,7 +254,7 @@ function abrirModalReautenticarPassword(user) {
         const passwordActual = campoPassword.value.trim();
 
         if (!passwordActual) {
-            mensaje.textContent = "Ingresá tu contraseña actual.";
+            mensaje.textContent = "Ingrese su contraseña actual.";
             mensaje.className = "small mt-2 text-danger";
             campoPassword.classList.add("is-invalid");
             return;
@@ -307,7 +307,7 @@ function abrirModalReautenticarPassword(user) {
                 mensaje.className = "small mt-2 text-danger";
                 campoPassword.classList.add("is-invalid");
             } else {
-                mensaje.textContent = "No se pudo verificar tu identidad. Intentá nuevamente.";
+                mensaje.textContent = "No se pudo verificar su identidad. Intente nuevamente.";
                 mensaje.className = "small mt-2 text-danger";
             }
         }
@@ -398,7 +398,7 @@ function configurarEliminarCuenta(user, referenciaUsuario) {
 
         if (!password) {
             if (mensajeEliminar) {
-                mensajeEliminar.textContent = "Ingresá tu contraseña actual.";
+                mensajeEliminar.textContent = "Ingrese su contraseña actual.";
                 mensajeEliminar.className = "small mt-2 text-danger";
             }
             inputPassword.classList.add("is-invalid");
@@ -450,7 +450,7 @@ function configurarEliminarCuenta(user, referenciaUsuario) {
                 inputPassword.classList.add("is-invalid");
             } else {
                 if (mensajeEliminar) {
-                    mensajeEliminar.textContent = "No se pudo eliminar la cuenta. Intentá nuevamente.";
+                    mensajeEliminar.textContent = "No se pudo eliminar la cuenta. Intente nuevamente.";
                     mensajeEliminar.className = "small mt-2 text-danger";
                 }
             }
