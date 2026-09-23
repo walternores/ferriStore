@@ -80,8 +80,12 @@ ferriStore/
 - Se genera persistencia de la compra en LocalStorage.
 
 **Sprint 3**
-- Se genera registro de usuario.
-- Se permite inciar y cerrar sesión (con usuario y contraseña).
+- Se genera posibilidad de registro de usuario.
+- El sistema permite iniciar y cerrar sesión (con usuario y contraseña).
 - Se habilita acceso a perfil de usuario y modificar información personal.
 - Desde el perfil de usuario se permite cambio de contraseña.
 - Desde el perfil de usuario se permite la eliminación del usuario que inició sesión.
+- Los productos mostardos en el catálogo provienen de Firestore.
+- El detalle de producto se carga desde Firestore.
+- Se reconstruye configuración de productos destacados en el documento index.html y posibilidad de agregar al carrito desde este documento.
+- Se impide que puedan ser agregados al carrito productos por un usuario anónimo. 

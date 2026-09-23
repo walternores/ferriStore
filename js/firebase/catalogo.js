@@ -15,6 +15,8 @@ const filtroCategoria = document.querySelector("#filtroCategoria");
 const btnLimpiar = document.querySelector("#btnLimpiar");
 const sinResultados = document.querySelector("#sinResultados");
 
+const cargandoCatalogo = document.querySelector("#cargandoCatalogo");
+
 // =====================================================
 // ESTADO GLOBAL
 // =====================================================
@@ -25,8 +27,11 @@ let productos = [];  // Ahora se llena desde Firestore
 // =====================================================
 async function cargarProductosDesdeFirestore() {
     try {
+        if (cargandoCatalogo) cargandoCatalogo.classList.remove("d-none");
+
         const productosRef = collection(db, "producto");
         const snapshot = await getDocs(productosRef);
+
 
         productos = [];
         snapshot.forEach((doc) => {
@@ -58,6 +63,9 @@ async function cargarProductosDesdeFirestore() {
                 </div>
             </div>
         `;
+    }finally {
+        
+        if (cargandoCatalogo) cargandoCatalogo.classList.add("d-none");
     }
 }
 

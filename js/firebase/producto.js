@@ -5,6 +5,8 @@ import {
     getDoc
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
+import { calcularStockDisponible, carritoListo  } from "./carrito.js";
+
 // =====================================================
 // ELEMENTOS DEL DOM
 // =====================================================
@@ -17,7 +19,6 @@ const categoria = document.querySelector("#categoriaDetalle");
 const precio = document.querySelector("#precioDetalle");
 const disponible = document.querySelector("#disponibleDetalle");
 const stock = document.querySelector("#stockDetalle");
-const botonAgregar = document.querySelector(".botonAgregar");
 
 const fichaNombre = document.querySelector("#fichaNombre");
 const fichaCategoria = document.querySelector("#fichaCategoria");
@@ -32,20 +33,30 @@ const idProducto = parametros.get("id");
 // =====================================================
 // CARGAR PRODUCTO DESDE FIRESTORE
 // =====================================================
+
+// Variable global para recordar el producto cargado
+let productoActual = null;
+
 async function cargarProducto() {
+    const cargandoDetalle = document.querySelector("#cargandoDetalle");
+
     if (!idProducto) {
+        if (cargandoDetalle) cargandoDetalle.classList.add("d-none");
         mostrarError();
         return;
     }
 
     try {
+        if (cargandoDetalle) cargandoDetalle.classList.remove("d-none");
+
         // Usamos doc() para traer solo el documento específico (más eficiente)
         const productoRef = doc(db, "producto", idProducto);
         const productoSnap = await getDoc(productoRef);
 
         if (productoSnap.exists()) {
-            const producto = { id: productoSnap.id, ...productoSnap.data() };
-            mostrarDetalle(producto);
+            // 🔥 Guardamos el producto en la variable global
+            productoActual = { id: productoSnap.id, ...productoSnap.data() };
+            mostrarDetalle(productoActual);
         } else {
             console.warn("No existe el producto con id:", idProducto);
             mostrarError();
@@ -54,6 +65,8 @@ async function cargarProducto() {
     } catch (error) {
         console.error("Error al cargar el producto:", error);
         mostrarError();
+    } finally {
+        if (cargandoDetalle) cargandoDetalle.classList.add("d-none");
     }
 }
 
@@ -62,13 +75,16 @@ async function cargarProducto() {
 // =====================================================
 function mostrarDetalle(producto) {
     try {
+        // Re-consultamos el botón cada vez (por si fue reemplazado)
+        const botonAgregar = document.querySelector(".botonAgregar");
+
         imagen.src = producto.imagen || "assets/img/default.jpg";
         imagen.alt = producto.nombre || "Producto";
         nombre.textContent = producto.nombre || "Sin nombre";
         categoria.textContent = producto.categoria || "General";
         precio.textContent = `$${Number(producto.precio || 0).toFixed(2)}`;
 
-        // 🔥 Stock disponible = stock base - lo que está en el carrito
+        // Stock disponible real
         const stockDisponible = typeof calcularStockDisponible === "function"
             ? calcularStockDisponible(producto)
             : (producto.stock || 0);
@@ -79,6 +95,7 @@ function mostrarDetalle(producto) {
 
         stock.textContent = `Stock disponible: ${stockDisponible}`;
 
+        // Actualizar el botón
         if (botonAgregar) {
             botonAgregar.dataset.id = producto.id;
 
@@ -96,23 +113,13 @@ function mostrarDetalle(producto) {
             }
         }
 
-        // Ficha técnica (opcional, si tenés esos campos en el HTML)
+        // Ficha técnica (opcional)
         if (fichaNombre) fichaNombre.textContent = producto.nombre || "-";
         if (fichaCategoria) fichaCategoria.textContent = producto.categoria || "-";
         if (fichaStock) fichaStock.textContent = stockDisponible;
 
         // Mostrar la sección de detalle
         contenedorDetalle.classList.remove("d-none");
-
-        // 🔥 Volver a conectar el botón "Agregar al carrito" al producto correcto
-        if (botonAgregar) {
-            // Removemos listeners previos clonando el botón (truco para limpiar listeners)
-            const nuevoBoton = botonAgregar.cloneNode(true);
-            botonAgregar.parentNode.replaceChild(nuevoBoton, botonAgregar);
-
-            // Volvemos a conectar el listener de "agregar al carrito"
-            // (carrito.js tiene un listener global en document, así que esto funciona solo)
-        }
 
     } catch (e) {
         console.error("Error actualizando textos:", e);
@@ -140,5 +147,14 @@ document.addEventListener("click", (e) => {
             // Volvemos a cargar el producto para reflejar el nuevo stock
             cargarProducto();
         }, 200);
+    }
+});
+
+
+
+// Escuchar cambios del carrito para actualizar el stock mostrado
+document.addEventListener("carritoActualizado", () => {
+    if (productoActual) {
+        mostrarDetalle(productoActual);
     }
 });
