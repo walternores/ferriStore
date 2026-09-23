@@ -96,6 +96,7 @@ ferriStore/
 - Los productos mostardos en el catálogo provienen de Firestore.
 - El detalle de producto se carga desde Firestore.
 - Se reconstruye configuración de productos destacados en el documento index.html y posibilidad de agregar al carrito desde este documento.
-- Se impide que puedan ser agregados al carrito productos por un usuario anónimo, validando disponibilidad y stock
-- Se consigue almacenar en Firestore el pedido al ser confirmado, almacenando una colección de pedidos con la información del usuario, email, fecha, estado del pedido, y el total. Por cada pedido un array donde se almacena cada item agregado (id de producto, cantidad, precio unitario, y subtotal)
+- Se impide que puedan ser agregados al carrito productos por un usuario anónimo, validando disponibilidad y stock.
+- Se consigue almacenar en Firestore el pedido al ser confirmado, almacenando una colección de pedidos con la información del usuario, email, fecha, estado del pedido, y el total. Por cada pedido un array donde se almacena cada item agregado (id de producto, cantidad, precio unitario, y subtotal).
+- El pedido al ser confirmado (usando transacción) mantiene actualizado el stock en Firebase de acuerdo a los productos adquiridos en los pedidos confirmados.
  

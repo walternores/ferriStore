@@ -9,7 +9,9 @@ import {
     updateDoc,
     deleteDoc,
     addDoc,
-    serverTimestamp
+    serverTimestamp,
+    runTransaction,
+    increment
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
@@ -378,46 +380,97 @@ try {
             await cargarProductosEnCache();
         }
 
-        // Armamos los items del pedido con toda la info necesaria
-        const itemsDelPedido = carritoActual.map((item) => {
-            const producto = todosLosProductosCache[item.idProducto];
-            const precio = producto?.precio || 0;
-            return {
-                idProducto: item.idProducto,
-                nombre: producto?.nombre || "Producto",
-                precio: precio,
-                cantidad: item.cantidad,
-                subtotal: precio * item.cantidad
-            };
+        // Generamos una referencia al nuevo pedido (con ID autogenerado)
+        const pedidoRef = doc(collection(db, "pedido"));
+
+        // 🔥 Ejecutamos la transacción
+        await runTransaction(db, async (transaction) => {
+
+            // ============================================
+            // PASO 1: Leer el estado actual de cada producto
+            // ============================================
+            const productosLeidos = [];
+
+            for (const item of carritoActual) {
+                const productoRef = doc(db, "producto", item.idProducto);
+                const productoSnap = await transaction.get(productoRef);
+
+                if (!productoSnap.exists()) {
+                    throw new Error(`El producto "${item.nombre || item.idProducto}" ya no existe.`);
+                }
+                
+                productosLeidos.push({
+                    ref: productoRef,
+                    data: productoSnap.data(),
+                    item: item
+                });
+            }
+
+
+                        // ============================================
+            // PASO 2: Validar que haya stock suficiente
+            // ============================================
+            for (const p of productosLeidos) {
+                const stockActual = p.data.stock || 0;
+                if (stockActual < p.item.cantidad) {
+                    throw new Error(
+                        `No hay suficiente stock de "${p.data.nombre}". ` +
+                        `Disponible: ${stockActual}, pedido: ${p.item.cantidad}.`
+                    );
+                }
+            }
+
+            // ============================================
+            // PASO 3: Descontar stock de cada producto
+            // ============================================
+            for (const p of productosLeidos) {
+                transaction.update(p.ref, {
+                    stock: increment(-p.item.cantidad)
+                });
+            }
+
+            // ============================================
+            // PASO 4: Crear el pedido
+            // ============================================
+            const itemsDelPedido = productosLeidos.map((p) => {
+                const precio = p.data.precio || 0;
+                return {
+                    idProducto: p.item.idProducto,
+                    nombre: p.data.nombre || "Producto",
+                    precio: precio,
+                    cantidad: p.item.cantidad,
+                    subtotal: precio * p.item.cantidad
+                };
+            });
+
+            const total = itemsDelPedido.reduce((suma, i) => suma + i.subtotal, 0);
+
+            transaction.set(pedidoRef, {
+                uid: usuarioActual.uid,
+                email: usuarioActual.email,
+                fecha: serverTimestamp(),
+                estado: "pendiente",
+                total: total,
+                items: itemsDelPedido
+            });
         });
 
-        const total = itemsDelPedido.reduce((suma, i) => suma + i.subtotal, 0);
-
-        // 🔥 Creamos el pedido en Firestore
-        const pedidosRef = collection(db, "pedido");
-        const pedidoNuevo = await addDoc(pedidosRef, {
-            uid: usuarioActual.uid,
-            email: usuarioActual.email,
-            fecha: serverTimestamp(),
-            estado: "pendiente",
-            total: total,
-            items: itemsDelPedido
-        });
-
-        console.log("Pedido creado con ID:", pedidoNuevo.id);
-
-        // Vaciamos el carrito del usuario en Firestore
+        // ============================================
+        // PASO 5: Si la transacción fue exitosa, vaciamos el carrito
+        // ============================================
         await vaciarCarrito();
 
-        showMessage(`¡Pedido confirmado! Nº ${pedidoNuevo.id.slice(0, 8)}`, "success");
+        showMessage(`¡Pedido confirmado! Nº ${pedidoRef.id.slice(0, 8).toUpperCase()}`, "success");
 
-        // Opcional: redirigir a una página de "gracias"
-        // setTimeout(() => window.location.href = "index.html", 2500);
+        // Refrescamos la caché de productos (ahora tienen el stock actualizado)
+        todosLosProductosCache = {};
+        await cargarProductosEnCache();
 
     } catch (error) {
         console.error("Error al confirmar el pedido:", error);
         showMessage("No se pudo confirmar el pedido: " + error.message, "error");
     }
+
 
 }
 
