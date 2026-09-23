@@ -54,7 +54,7 @@ async function cargarProducto() {
         const productoSnap = await getDoc(productoRef);
 
         if (productoSnap.exists()) {
-            // 🔥 Guardamos el producto en la variable global
+            // Guardamos el producto en la variable global
             productoActual = { id: productoSnap.id, ...productoSnap.data() };
             mostrarDetalle(productoActual);
         } else {

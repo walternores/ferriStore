@@ -46,16 +46,24 @@ ferriStore/
 ├── index.html               # Página de inicio (landing)
 ├── catalogo.html            # Catálogo de productos (dinámico)
 ├── producto.html            # Detalle individual de producto
-├── carrito.html             # Página de carrito (en desarrollo)
-├── perfil.html              # Página de perfil (en desarrollo)
+├── carrito.html             # Página de carrito
+├── perfil.html              # Página de perfil de usuario
+├── pedido.html              # Página que muestra el historial de pedidos desde Firebase
 ├── admin.html               # Panel de administración (en desarrollo)
+├── registrarse.html         # Página de registro de usuario
+├── ingresar.html            # Página de inicio de sesión
 ├── css/
 │   └── styles.css           # Estilos globales y personalizados
 ├── js/
-│   ├── datos.js             # Almacena los datos de productos
-│   ├── base.js              # Lógica base (inicialización, eventos globales)
-│   ├── catalogo.js          # Array de productos, renderizado, filtros y búsqueda
-│   └── producto.js          # Lógica para mostrar el detalle de un producto
+│   ├── datos.js             # Almacena los datos de productos localmente
+│   ├── catalogo.js          # Array de productos, renderizado, filtros y búsqueda (LocalStore)
+│   └── producto.js          # Lógica para mostrar el detalle de un producto (Array local)
+│   └── carrito.js           # Lógica para mostrar el carrito de compras (LocalStore)
+│   └── firebase
+│       └── producto.js      # Lógica para mostrar el detalle de un producto (Firestore)
+│       └── catalogo.js      # Lógica para mostrar el catálogo de productos (Firestore) 
+│       └── carrito.js       # Lógica para mostrar el carrito de compras (Firestore) 
+│       └── pedido.js        # Lógica para mostrar el historial de pedidos (Firestore)
 ├── assets/
 │   ├── img/                 # Imágenes de productos
 │   ├── icons/               # Íconos personalizados
@@ -88,4 +96,6 @@ ferriStore/
 - Los productos mostardos en el catálogo provienen de Firestore.
 - El detalle de producto se carga desde Firestore.
 - Se reconstruye configuración de productos destacados en el documento index.html y posibilidad de agregar al carrito desde este documento.
-- Se impide que puedan ser agregados al carrito productos por un usuario anónimo. 
+- Se impide que puedan ser agregados al carrito productos por un usuario anónimo, validando disponibilidad y stock
+- Se consigue almacenar en Firestore el pedido al ser confirmado, almacenando una colección de pedidos con la información del usuario, email, fecha, estado del pedido, y el total. Por cada pedido un array donde se almacena cada item agregado (id de producto, cantidad, precio unitario, y subtotal)
+ 

@@ -7,7 +7,9 @@ import {
     getDocs,
     setDoc,
     updateDoc,
-    deleteDoc
+    deleteDoc,
+    addDoc,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
@@ -361,12 +363,62 @@ async function vaciarCarrito() {
 
 async function confirmarPedido() {
     if (carritoActual.length === 0) {
-        showMessage("Agregá al menos un producto antes de confirmar.", "warning");
+        showMessage("Agrege al menos un producto antes de confirmar.", "warning");
         return;
     }
 
-    await vaciarCarrito();
-    showMessage("Pedido confirmado correctamente.", "success");
+    if (!usuarioActual) {
+        showMessage("Necesita iniciar sesión para confirmar el pedido.", "warning");
+        return;
+    }
+
+try {
+        // Aseguramos que tenemos los productos en caché
+        if (Object.keys(todosLosProductosCache).length === 0) {
+            await cargarProductosEnCache();
+        }
+
+        // Armamos los items del pedido con toda la info necesaria
+        const itemsDelPedido = carritoActual.map((item) => {
+            const producto = todosLosProductosCache[item.idProducto];
+            const precio = producto?.precio || 0;
+            return {
+                idProducto: item.idProducto,
+                nombre: producto?.nombre || "Producto",
+                precio: precio,
+                cantidad: item.cantidad,
+                subtotal: precio * item.cantidad
+            };
+        });
+
+        const total = itemsDelPedido.reduce((suma, i) => suma + i.subtotal, 0);
+
+        // 🔥 Creamos el pedido en Firestore
+        const pedidosRef = collection(db, "pedido");
+        const pedidoNuevo = await addDoc(pedidosRef, {
+            uid: usuarioActual.uid,
+            email: usuarioActual.email,
+            fecha: serverTimestamp(),
+            estado: "pendiente",
+            total: total,
+            items: itemsDelPedido
+        });
+
+        console.log("Pedido creado con ID:", pedidoNuevo.id);
+
+        // Vaciamos el carrito del usuario en Firestore
+        await vaciarCarrito();
+
+        showMessage(`¡Pedido confirmado! Nº ${pedidoNuevo.id.slice(0, 8)}`, "success");
+
+        // Opcional: redirigir a una página de "gracias"
+        // setTimeout(() => window.location.href = "index.html", 2500);
+
+    } catch (error) {
+        console.error("Error al confirmar el pedido:", error);
+        showMessage("No se pudo confirmar el pedido: " + error.message, "error");
+    }
+
 }
 
 // =====================================================
