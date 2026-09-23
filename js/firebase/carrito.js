@@ -290,9 +290,8 @@ async function mostrarCarrito() {
                     <div class="d-flex justify-content-between gap-3 mb-2">
                         <div>
                             <strong class="cart-item-name d-block">${producto.nombre}</strong>
-                            <span class="badge rounded-pill text-bg-warning mb-2">P.Un. ${formatearPrecio(precioUnitario)}</span>
-                    
-                            <span class="small text-secondary">${formatearPrecio(subtotal)}</span>
+                            <span class="badge rounded-pill text-bg-warning mb-2">P. Un.: ${formatearPrecio(precioUnitario)}</span>
+                            <span class="badge rounded-pill text-bg-secondary mb-2">Subtotal: ${formatearPrecio(subtotal)}</span>
                         </div>
                         <button class="cart-action ver" data-id="${item.idProducto}" type="button">Ver</button>
                     </div>
