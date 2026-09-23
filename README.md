@@ -81,7 +81,7 @@ ferriStore/
 
 **Sprint 3**
 - Se genera registro de usuario.
-- Se permite inciar y cerrar sesión.
+- Se permite inciar y cerrar sesión (con usuario y contraseña).
 - Se habilita acceso a perfil de usuario y modificar información personal.
 - Desde el perfil de usuario se permite cambio de contraseña.
 - Desde el perfil de usuario se permite la eliminación del usuario que inició sesión.
