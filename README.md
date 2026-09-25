@@ -68,9 +68,10 @@ ferriStore/
 │       └── pedidos.js        # Lógica para mostrar el historial de pedidos (Firestore)
 │       └── app.js           # Lógica para inicio y cierre de sesión (Firestore)
 │       └── perfil.js        # Lógica para mostrar el perfil al usuario que inicia sesión (Firestore)
-│       └── registroUsuario.js # Lógica para registro de usuario anónimo
-│       └── resenias.js      # Lógica para establecer reña de productos por parte de usuarios registrados
-│       └── config.js        # Define la configuración para conectar con Firebase
+│       └── registroUsuario.js # Lógica para registro de usuario anónimo (Firestore)
+│       └── resenias.js      # Lógica para establecer reña de productos por parte de usuarios registrados (Firestore)
+│       └── destacados.js    # Lógica opcion "agregar al carrito" en productos destacados ubicados en index.html (Firestore) 
+│       └── config.js        # Define la configuración para conectar con Firebase (Firestore)
 ├── assets/
 │   ├── img/                 # Imágenes de productos
 │   ├── icons/               # Íconos personalizados
