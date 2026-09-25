@@ -45,10 +45,10 @@ Las categorías ya definidas en el menú de navegación del sitio son:
 ferriStore/
 ├── index.html               # Página de inicio (landing)
 ├── catalogo.html            # Catálogo de productos (dinámico)
-├── producto.html            # Detalle individual de producto
+├── producto.html            # Detalle individual de producto, comentarios y valoraciones de usuarios
 ├── carrito.html             # Página de carrito
 ├── perfil.html              # Página de perfil de usuario
-├── pedido.html              # Página que muestra el historial de pedidos desde Firebase
+├── pedidos.html             # Página que muestra al usuario el historial de pedidos desde Firebase
 ├── admin.html               # Panel de administración (en desarrollo)
 ├── registrarse.html         # Página de registro de usuario
 ├── ingresar.html            # Página de inicio de sesión
@@ -56,14 +56,21 @@ ferriStore/
 │   └── styles.css           # Estilos globales y personalizados
 ├── js/
 │   ├── datos.js             # Almacena los datos de productos localmente
+│   ├── validacionesRegistro.js  # Valida contraseñas 
+│   ├── showMessage.js       # Módulo para mensajes emergentes (toast), notificaciones y avisos en la UI
 │   ├── catalogo.js          # Array de productos, renderizado, filtros y búsqueda (LocalStore)
 │   └── producto.js          # Lógica para mostrar el detalle de un producto (Array local)
 │   └── carrito.js           # Lógica para mostrar el carrito de compras (LocalStore)
 │   └── firebase
-│       └── producto.js      # Lógica para mostrar el detalle de un producto (Firestore)
+│       └── producto.js      # Lógica para mostrar el detalle de un producto, comentarios y valoraciones de usuario (Firestore)
 │       └── catalogo.js      # Lógica para mostrar el catálogo de productos (Firestore) 
 │       └── carrito.js       # Lógica para mostrar el carrito de compras (Firestore) 
-│       └── pedido.js        # Lógica para mostrar el historial de pedidos (Firestore)
+│       └── pedidos.js        # Lógica para mostrar el historial de pedidos (Firestore)
+│       └── app.js           # Lógica para inicio y cierre de sesión (Firestore)
+│       └── perfil.js        # Lógica para mostrar el perfil al usuario que inicia sesión (Firestore)
+│       └── registroUsuario.js # Lógica para registro de usuario anónimo
+│       └── resenias.js      # Lógica para establecer reña de productos por parte de usuarios registrados
+│       └── config.js        # Define la configuración para conectar con Firebase
 ├── assets/
 │   ├── img/                 # Imágenes de productos
 │   ├── icons/               # Íconos personalizados
