@@ -308,3 +308,44 @@
     margin-bottom: .3rem;
     color: var(--text);
 }
+
+/* El contenedor de la tarjeta ocupa toda la altura de la columna */
+.placeholder-product {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* La imagen mantiene su tamaño */
+.placeholder-image {
+    flex-shrink: 0;
+}
+
+/* La parte del card (texto + botones) se estira y organiza en columna */
+.placeholder-product .card {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* El div interno del card también debe ser flex column para empujar los botones */
+.placeholder-product .card > .p-3 {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* El bloque de botones se empuja siempre al fondo */
+.placeholder-product .card .d-flex.justify-content-between {
+    margin-top: auto;
+}
+
+/* El título no empuja al botón cuando es muy corto */
+.placeholder-product .card h3 {
+    min-height: 2.4em; /* Ajustable: 2 líneas de alto mínimo */
+}
+
+/* La descripción también tiene una altura mínima para alinear */
+.placeholder-product .card p {
+    min-height: 2.4em;
+}

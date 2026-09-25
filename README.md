@@ -45,17 +45,33 @@ Las categorías ya definidas en el menú de navegación del sitio son:
 ferriStore/
 ├── index.html               # Página de inicio (landing)
 ├── catalogo.html            # Catálogo de productos (dinámico)
-├── producto.html            # Detalle individual de producto
-├── carrito.html             # Página de carrito (en desarrollo)
-├── perfil.html              # Página de perfil (en desarrollo)
+├── producto.html            # Detalle individual de producto, comentarios y valoraciones de usuarios
+├── carrito.html             # Página de carrito
+├── perfil.html              # Página de perfil de usuario
+├── pedidos.html             # Página que muestra al usuario el historial de pedidos desde Firebase
 ├── admin.html               # Panel de administración (en desarrollo)
+├── registrarse.html         # Página de registro de usuario
+├── ingresar.html            # Página de inicio de sesión
 ├── css/
 │   └── styles.css           # Estilos globales y personalizados
 ├── js/
-│   ├── datos.js             # Almacena los datos de productos
-│   ├── base.js              # Lógica base (inicialización, eventos globales)
-│   ├── catalogo.js          # Array de productos, renderizado, filtros y búsqueda
-│   └── producto.js          # Lógica para mostrar el detalle de un producto
+│   ├── datos.js             # Almacena los datos de productos localmente
+│   ├── validacionesRegistro.js  # Valida contraseñas 
+│   ├── showMessage.js       # Módulo para mensajes emergentes (toast), notificaciones y avisos en la UI
+│   ├── catalogo.js          # Array de productos, renderizado, filtros y búsqueda (LocalStore)
+│   └── producto.js          # Lógica para mostrar el detalle de un producto (Array local)
+│   └── carrito.js           # Lógica para mostrar el carrito de compras (LocalStore)
+│   └── firebase
+│       └── producto.js      # Lógica para mostrar el detalle de un producto, comentarios y valoraciones de usuario (Firestore)
+│       └── catalogo.js      # Lógica para mostrar el catálogo de productos (Firestore) 
+│       └── carrito.js       # Lógica para mostrar el carrito de compras (Firestore) 
+│       └── pedidos.js        # Lógica para mostrar el historial de pedidos (Firestore)
+│       └── app.js           # Lógica para inicio y cierre de sesión (Firestore)
+│       └── perfil.js        # Lógica para mostrar el perfil al usuario que inicia sesión (Firestore)
+│       └── registroUsuario.js # Lógica para registro de usuario anónimo (Firestore)
+│       └── resenias.js      # Lógica para establecer reña de productos por parte de usuarios registrados (Firestore)
+│       └── destacados.js    # Lógica opcion "agregar al carrito" en productos destacados ubicados en index.html (Firestore) 
+│       └── config.js        # Define la configuración para conectar con Firebase (Firestore)
 ├── assets/
 │   ├── img/                 # Imágenes de productos
 │   ├── icons/               # Íconos personalizados
@@ -76,5 +92,19 @@ ferriStore/
 - Se generan los productos desde JavaScript.
 - Se permite buscar y filtrar en el catálogo.
 - Se muestra el detalle de un producto seleccionado.
-- Se permite agregar los productos al carrito, quitar y modificar la cantidad, asi como calcular el total de la compra
+- Se permite agregar los productos al carrito, quitar y modificar la cantidad, asi como calcular el total de la compra.
 - Se genera persistencia de la compra en LocalStorage.
+
+**Sprint 3**
+- Se genera posibilidad de registro de usuario.
+- El sistema permite iniciar y cerrar sesión (con usuario y contraseña).
+- Se habilita acceso a perfil de usuario y modificar información personal.
+- Desde el perfil de usuario se permite cambio de contraseña.
+- Desde el perfil de usuario se permite la eliminación del usuario que inició sesión.
+- Los productos mostardos en el catálogo provienen de Firestore.
+- El detalle de producto se carga desde Firestore.
+- Se reconstruye configuración de productos destacados en el documento index.html y posibilidad de agregar al carrito desde este documento.
+- Se impide que puedan ser agregados al carrito productos por un usuario anónimo, validando disponibilidad y stock.
+- Se consigue almacenar en Firestore el pedido al ser confirmado, almacenando una colección de pedidos con la información del usuario, email, fecha, estado del pedido, y el total. Por cada pedido un array donde se almacena cada item agregado (id de producto, cantidad, precio unitario, y subtotal).
+- El pedido al ser confirmado (usando transacción) mantiene actualizado el stock en Firebase de acuerdo a los productos adquiridos en los pedidos confirmados.
+ 
