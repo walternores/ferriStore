@@ -109,3 +109,6 @@ ferriStore/
 - El pedido al ser confirmado (usando transacción) mantiene actualizado el stock en Firebase de acuerdo a los productos adquiridos en los pedidos confirmados.
 - El sistema permite realizar comentarios y valoraciones (1-5) del producto a usuarios que inicien sesión. 
  
+
+**Sprint 4**
+- Se define un rol para distinguir usuarios, como admin y cliente, lo que permite al primero auditar los pedidos confirmados por los clientes, y establecer su estado (pendiente, enviado, entregado, cancelado) a través de una pagina con esta finalidad.

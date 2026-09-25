@@ -20,89 +20,149 @@
                     class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav me-auto">
+                    <!-- Siempre visible (anónimo, cliente y admin) -->
                     <li class="nav-item"><a class="nav-link" data-page="inicio" href="index.html">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" data-page="catalogo" href="catalogo.html">Catálogo</a></li>
-                    <li class="nav-item"><a class="nav-link d-none grupoUsuario" data-page="carrito" href="carrito.html">Carrito</a></li>
-                    <li class="nav-item"><a class="nav-link d-none grupoUsuario" data-page="perfil" href="perfil.html">Mi perfil</a></li>
-                    <li class="nav-item"><a class="nav-link d-none grupoUsuario" data-page="admin" href="admin.html">Administración</a></li>
+                    <!-- Solo para usuarios logueados (cliente o admin) -->
+                    <li class="nav-item solo-logueado d-none"><a class="nav-link" data-page="carrito" href="carrito.html">Carrito</a></li>
+                    <li class="nav-item solo-logueado d-none"><a class="nav-link" data-page="perfil" href="perfil.html">Mi perfil</a></li>
+                    <li class="nav-item solo-logueado d-none"><a class="nav-link" data-page="pedidos" href="pedidos.html">Mis pedidos</a></li>
+                    <!-- Solo para admins -->
+                    <li class="nav-item solo-admin d-none"><a class="nav-link" data-page="admin" href="admin.html">Administración</a></li>
                 </ul>
                 <div class="d-flex align-items-right gap-3 py-2">
                 
-                <div class="d-flex align-items-center gap-2 ms-2 position-relative  d-none grupoUsuario">
-                <button id="btnIrCarrito" class="btn btn-light d-flex align-items-center position-relative"
-                    type="button" onclick="window.location.href='carrito.html'">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-cart" viewBox="0 0 16 16">
-                        <path
-                            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2">
-                        </path>
-                    </svg>
-                    <span id="contadorCarrito"
-                        class="position-absolute top-0 start-100 translate-middle badge border border-dark rounded-pill text-bg-warning">0</span>
-                </button>
-                </div>
+                    <div class="d-flex align-items-center gap-2 ms-2 position-relative  d-none grupoUsuario">
+                    <button id="btnIrCarrito" class="btn btn-light d-flex align-items-center position-relative"
+                        type="button" onclick="window.location.href='carrito.html'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-cart" viewBox="0 0 16 16">
+                            <path
+                                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2">
+                            </path>
+                        </svg>
+                        <span id="contadorCarrito"
+                            class="position-absolute top-0 start-100 translate-middle badge border border-dark rounded-pill text-bg-warning">0</span>
+                    </button>
+                    </div>
                 
-                <div class="d-flex align-items-center gap-2 logged-out d-none" id="grupIngresar">
-                       <button class="btn btn-outline-light btn-sm" id="btnLoginPlaceholder" onclick="window.location.href='ingresar.html'">Ingresar</button> 
-                </div>
-                
-                <div class="d-flex align-items-center gap-2 ms-2 logged-out d-none" id="grupoRegistrarse">
-                <button class="btn btn-outline-light btn-sm" id="btnRegisterPlaceholder" onclick="window.location.href='registrarse.html'">Registrarse</button>
-                </div>
+                    <div class="d-flex align-items-center gap-2 logged-out d-none" id="grupIngresar">
+                        <button class="btn btn-outline-light btn-sm" id="btnLoginPlaceholder" onclick="window.location.href='ingresar.html'">Ingresar</button> 
+                    </div>
+                    
+                    <div class="d-flex align-items-center gap-2 ms-2 logged-out d-none" id="grupoRegistrarse">
+                    <button class="btn btn-outline-light btn-sm" id="btnRegisterPlaceholder" onclick="window.location.href='registrarse.html'">Registrarse</button>
+                    </div>
             
 
-                <div class="d-flex align-items-center gap-2 ms-2 position-relative  d-none grupoUsuario">
-                <button class="btn btn-outline-light btn-sm dropdown-toggle d-flex align-items-center gap-2 py-2 px-3"
-                    type="button" id="dropdownUsuario" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
-                    <i class="bi bi-person-circle fs-5"></i>
-                    <span id="nombreUsuario" class="fs-6 fw-bold"></span>
-                </button>
-
-                <ul class="dropdown-menu dropdown-menu-end shadow mt-2" aria-labelledby="dropdownUsuario">
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="perfil.html">
-                            <i class="bi bi-person fs-5"></i>
-                            Mi perfil
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="pedidos.html">
-                            <i class="bi bi-bag-check fs-5"></i>
-                            Mis pedidos
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="admin.html">
-                            <i class="bi bi-gear-wide-connected fs-5 text-primary"></i>
-                            Administrar
-                        </a>
-                    </li>
-
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <button class="dropdown-item text-danger d-flex align-items-center gap-2 py-2" type="button" id="btnCerrarSesion">
-                            <i class="bi bi-box-arrow-right fs-5"></i>
-                            Cerrar sesión
+                    <div class="d-flex align-items-center gap-2 ms-2 position-relative  d-none grupoUsuario">
+                        <button class="btn btn-outline-light btn-sm dropdown-toggle d-flex align-items-center gap-2 py-2 px-3"
+                            type="button" id="dropdownUsuario" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+                            <i class="bi bi-person-circle fs-5"></i>
+                            <span id="nombreUsuario" class="fs-6 fw-bold"></span>
                         </button>
-                    </li>
-                </ul>
-            </div>
+
+                        <ul class="dropdown-menu dropdown-menu-end shadow mt-2" aria-labelledby="dropdownUsuario">
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center gap-2 py-1  solo-logueado d-none" href="perfil.html">
+                                    <i class="bi bi-person fs-5"></i>
+                                    Mi perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center gap-2 py-1  solo-logueado d-none" href="pedidos.html">
+                                    <i class="bi bi-bag-check fs-5"></i>
+                                    Mis pedidos
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center gap-2 py-1  solo-admin d-none" href="admin.html">
+                                    <i class="bi bi-gear-wide-connected fs-5 text-primary"></i>
+                                    Administrar
+                                </a>
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <button class="dropdown-item text-danger d-flex align-items-center gap-2 py-1" type="button" id="btnCerrarSesion">
+                                    <i class="bi bi-box-arrow-right fs-5"></i>
+                                    Cerrar sesión
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
 
 
-            </div>
+                </div>
             </div>
         </div>
     </nav>
-    <main class='flex-grow-1'>
+    
+    <main class="flex-grow-1">
         <div class="container py-5">
-            <section class="locked-module">
-                <div class="locked-icon">🛡️</div>
-                <span class="badge rounded-pill text-bg-warning mb-3">Sprint 3 · Semanas 9 a 12</span>
-                <h1>Panel administrativo</h1>
-                <p class="lead">Solo será visible para administradores autenticados.</p>
 
-               <a class="btn btn-primary mt-3" href="index.html">Volver al inicio</a>
-            </section>
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                <div>
+                    <h1 class="fw-bold mb-1">Panel de Pedidos</h1>
+                    <p class="text-secondary mb-0">Administrá los pedidos de tus clientes.</p>
+                </div>
+                <span class="badge text-bg-light border px-3 py-2">
+                    <span id="contadorPedidos">0</span> pedidos
+                </span>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold small text-uppercase">Buscar</label>
+                            <input type="text" id="buscador" class="form-control" 
+                                   placeholder="Nº de pedido o email...">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold small text-uppercase">Estado</label>
+                            <select id="filtroEstado" class="form-select">
+                                <option value="todos">Todos los estados</option>
+                                <option value="pendiente">Pendientes</option>
+                                <option value="enviado">Enviados</option>
+                                <option value="entregado">Entregados</option>
+                                <option value="cancelado">Cancelados</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button id="btnLimpiar" class="btn btn-outline-secondary w-100">
+                                <i class="bi bi-x-circle"></i> Limpiar filtros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spinner -->
+            <div id="cargando" class="text-center py-5">
+                <div class="spinner-border text-warning" role="status" style="width: 3rem; height: 3rem;"></div>
+                <p class="text-secondary mt-3 fw-bold">Cargando pedidos...</p>
+            </div>
+
+            <!-- Sin permiso -->
+            <div id="sinPermiso" class="text-center py-5 d-none">
+                <i class="bi bi-shield-lock text-danger" style="font-size: 4rem;"></i>
+                <h2 class="h4 mt-3">Acceso denegado</h2>
+                <p class="text-secondary">Esta sección es solo para administradores.</p>
+                <a href="index.html" class="btn btn-primary mt-2">Volver al inicio</a>
+            </div>
+
+            <!-- Sin pedidos -->
+            <div id="sinPedidos" class="text-center py-5 d-none">
+                <i class="bi bi-inbox text-secondary" style="font-size: 4rem;"></i>
+                <h2 class="h4 mt-3">No hay pedidos</h2>
+                <p class="text-secondary">Cuando los clientes compren, vas a ver sus pedidos acá.</p>
+            </div>
+
+            <!-- Listado de pedidos -->
+            <div id="listadoPedidos" class="accordion d-none"></div>
+
         </div>
     </main>
 
@@ -162,12 +222,11 @@
                                 class="text-decoration-none text-light text-opacity-75 hover-white">Inicio</a></li>
                         <li class="mb-2"><a href="catalogo.html"
                                 class="text-decoration-none text-light text-opacity-75 hover-white">Catálogo</a></li>
-                        <li class="mb-2"><a href="producto.html"
-                                class="text-decoration-none text-light text-opacity-75 hover-white">Productos</a></li>
+                        <li class="mb-2"><a href="pedidos.html"
+                                class="text-decoration-none text-light text-opacity-75 hover-white solo-logueado d-none">Mis pedidos</a></li>
                         <li class="mb-2"><a href="carrito.html"
-                                class="text-decoration-none text-light text-opacity-75 hover-white">Carrito</a></li>
-                        <li><a href="perfil.html" class="text-decoration-none text-light text-opacity-75 hover-white">Mi
-                                perfil</a></li>
+                                class="text-decoration-none text-light text-opacity-75 hover-white solo-logueado d-none">Carrito</a></li>
+                        <li><a href="perfil.html" class="text-decoration-none text-light text-opacity-75 hover-white solo-logueado d-none">Mi perfil</a></li>
                     </ul>
                 </div>
 
@@ -205,7 +264,9 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-     <script src="js/firebase/app.js" type="module"></script>
+    <script src="js/firebase/app.js" type="module"></script>
+    <script src="js/firebase/carrito.js" type="module"></script>
+    <script src="js/firebase/admin.js" type="module"></script>
 </body>
 
 </html>
