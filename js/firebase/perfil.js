@@ -31,6 +31,9 @@ function cargarDatosEnPerfil(datosUsuario, user) {
     const email = document.getElementById("perfilEmail");
     if (email) email.textContent = datosUsuario.email || user.email || "";
 
+    const rol = document.getElementById("perfilRol");
+    if (rol) rol.textContent = datosUsuario.rol || "cliente";
+
     
     
 }
@@ -499,6 +502,9 @@ function mostrarNotificacion(mensaje, tipo = "exito") {
 }
 
 onAuthStateChanged(auth, async (user) => {
+
+    
+
     if (user) {
         const referenciaUsuario = doc(db, "usuario", user.uid);
         const docSnap = await getDoc(referenciaUsuario);
@@ -511,6 +517,15 @@ onAuthStateChanged(auth, async (user) => {
             configurarModificarPassword(user);
             
             configurarEliminarCuenta(user, referenciaUsuario);
+
+            cargarFotoPerfil(user, datosUsuario);
+
+            const btnCambiarFoto = document.querySelector("#btnCambiarFoto");
+            if (btnCambiarFoto) {
+                btnCambiarFoto.addEventListener("click", () => {
+                    subirFotoPerfil(user, referenciaUsuario);
+                });
+            }
         } else {
             console.warn("No se encontraron datos adicionales en Firestore para este usuario.");
         }
@@ -518,3 +533,147 @@ onAuthStateChanged(auth, async (user) => {
         window.location.href = "index.html";
     }
 });
+
+async function subirFotoPerfil(user, referenciaUsuario) {
+    const CLOUDINARY_CLOUD_NAME = "wmcawajm";      
+    const CLOUDINARY_UPLOAD_PRESET = "ferriStore"; 
+
+    // Creamos un input file dinámico
+        const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.click();
+
+    input.addEventListener("change", async () => {
+        const archivo = input.files[0];
+        if (!archivo) return;
+
+        if (!archivo.type.startsWith("image/")) {
+            alert("Seleccioná una imagen válida (JPG, PNG, etc.).");
+            return;
+        }
+
+        if (archivo.size > 2 * 1024 * 1024) {
+            alert("La imagen no puede pesar más de 2 MB.");
+            return;
+        }
+
+        const contenedorAvatar = document.querySelector("#avatarContenedor");
+        const botonCamara = document.querySelector("#btnCambiarFoto");
+
+        try {
+            
+            mostrarCargandoAvatar(contenedorAvatar, botonCamara);
+
+            // Subimos a Cloudinary
+            const formData = new FormData();
+            formData.append("file", archivo);
+            formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+            const respuesta = await fetch(
+                `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+                { method: "POST", body: formData }
+            );
+
+            if (!respuesta.ok) {
+                const errorData = await respuesta.json();
+                console.error("Error de Cloudinary:", errorData);
+                throw new Error("Error al subir la imagen.");
+            }
+
+            const data = await respuesta.json();
+            const urlFoto = data.secure_url;
+
+            // Guardamos en Firestore y Firebase Auth
+            await updateDoc(referenciaUsuario, { photoURL: urlFoto });
+            await updateProfile(user, { photoURL: urlFoto });
+
+            // Actualizamos la UI con la nueva foto
+            if (contenedorAvatar) {
+                contenedorAvatar.innerHTML = `
+                    <img src="${urlFoto}" alt="Foto de perfil" 
+                         style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
+                `;
+            }
+
+            if (typeof showMessage === "function") {
+                showMessage("Foto de perfil actualizada.", "success");
+            } else {
+                alert("Foto de perfil actualizada.");
+            }
+
+        } catch (error) {
+            console.error("Error al subir la foto:", error);
+
+            if (typeof showMessage === "function") {
+                showMessage("No se pudo subir la foto: " + error.message, "error");
+            } else {
+                alert("No se pudo subir la foto.");
+            }
+        } finally {
+           
+            ocultarCargandoAvatar(botonCamara);
+        }
+    });
+}
+
+function mostrarCargandoAvatar(contenedorAvatar, botonCamara) {
+    // 1. Overlay sobre el avatar
+    if (contenedorAvatar && !contenedorAvatar.querySelector(".avatar-cargando")) {
+        // Guardamos el contenido actual para restaurarlo después si falla
+        contenedorAvatar.dataset.htmlAnterior = contenedorAvatar.innerHTML;
+
+        const overlay = document.createElement("div");
+        overlay.className = "avatar-cargando";
+        overlay.innerHTML = `
+            <div class="spinner-border text-light" role="status"></div>
+            <span>Subiendo...</span>
+        `;
+        contenedorAvatar.style.position = "relative";
+        contenedorAvatar.appendChild(overlay);
+    }
+
+    // 2. Spinner en el botón de la cámara
+    if (botonCamara) {
+        botonCamara.disabled = true;
+        botonCamara.dataset.htmlAnterior = botonCamara.innerHTML;
+        botonCamara.innerHTML = `
+            <span class="spinner-border spinner-border-sm text-dark" role="status"></span>
+        `;
+    }
+}
+
+function ocultarCargandoAvatar(botonCamara) {
+    // 1. Quitar overlay del avatar
+    const contenedorAvatar = document.querySelector("#avatarContenedor");
+    if (contenedorAvatar) {
+        const overlay = contenedorAvatar.querySelector(".avatar-cargando");
+        if (overlay) overlay.remove();
+    }
+
+    // 2. Restaurar botón de la cámara
+    if (botonCamara) {
+        botonCamara.disabled = false;
+        if (botonCamara.dataset.htmlAnterior) {
+            botonCamara.innerHTML = botonCamara.dataset.htmlAnterior;
+        } else {
+            botonCamara.innerHTML = `<i class="bi bi-camera-fill text-dark"></i>`;
+        }
+    }
+}
+
+function cargarFotoPerfil(user, datosUsuario) {
+    const contenedorAvatar = document.querySelector("#avatarContenedor");
+    if (!contenedorAvatar) return;
+
+    const urlFoto = datosUsuario.photoURL || user.photoURL;
+
+    if (urlFoto) {
+        contenedorAvatar.innerHTML = `
+            <img src="${urlFoto}" alt="Foto de perfil" 
+                 style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
+        `;
+    }
+}
+
+

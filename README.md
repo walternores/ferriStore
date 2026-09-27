@@ -3,6 +3,8 @@
 **Nombre del estudiante:** [Walter Ramón Nores Benítez]
 
 ---
+![ferriStore](assets/logo/ferriStore.png)
+---
 
 ## Descripción del E-commerce
 **ferriStore** es un proyecto de interfaz de usuario (UI) para un e-commerce de ferretería y herramientas. En su estado actual (Sprint 1), se ha desarrollado una landing page estática y responsiva utilizando HTML, CSS y el framework Bootstrap, dando los primeros pasos en la identidad visual y la estructura de navegación del sitio.
@@ -48,6 +50,7 @@ ferriStore/
 ├── producto.html            # Detalle individual de producto, comentarios y valoraciones de usuarios
 ├── carrito.html             # Página de carrito
 ├── perfil.html              # Página de perfil de usuario
+├── admin.html               # Página de administración reservada para el usuario con rol admin
 ├── pedidos.html             # Página que muestra al usuario el historial de pedidos desde Firebase
 ├── admin.html               # Panel de administración (en desarrollo)
 ├── registrarse.html         # Página de registro de usuario
@@ -72,6 +75,7 @@ ferriStore/
 │       └── resenias.js      # Lógica para establecer reña de productos por parte de usuarios registrados (Firestore)
 │       └── destacados.js    # Lógica opcion "agregar al carrito" en productos destacados ubicados en index.html (Firestore) 
 │       └── config.js        # Define la configuración para conectar con Firebase (Firestore)
+│       └── admin.js         # Lógica para el panel de administrador, la gestión de los pedidos y manipulación de estados (Firestore)
 ├── assets/
 │   ├── img/                 # Imágenes de productos
 │   ├── icons/               # Íconos personalizados
@@ -111,4 +115,5 @@ ferriStore/
  
 
 **Sprint 4**
-- Se define un rol para distinguir usuarios, como admin y cliente, lo que permite al primero auditar los pedidos confirmados por los clientes, y establecer su estado (pendiente, enviado, entregado, cancelado) a través de una pagina con esta finalidad.
+- Se define un rol para distinguir usuarios, como admin y cliente, lo que permite al primero auditar los pedidos confirmados por los clientes, y establecer su estado (pendiente, enviado, entregado, cancelado) a través de una pagina para esta finalidad.
+- El usuario que inicia sesión, en su pagina de perfil puede subir/actualizar su foto de perfil.
