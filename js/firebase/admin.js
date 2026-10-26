@@ -51,6 +51,7 @@ async function verificarAdmin(user) {
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists() && userSnap.data().rol === "admin") {
+            document.querySelector("#contenidoAdmin").classList.remove("d-none");
             return true;
         }
         return false;
@@ -479,6 +480,12 @@ onAuthStateChanged(auth, async (user) => {
     if (!user) {
         cargando.classList.add("d-none");
         sinPermiso.classList.remove("d-none");
+        cargandoProductos.classList.add("d-none");
+        contenedorTablaProductos.classList.remove("d-none");
+        showMessage("No tiene permisos para acceder a esta sección. Será redirigido.", "error");
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 2500);
         return;
     }
 
@@ -487,6 +494,12 @@ onAuthStateChanged(auth, async (user) => {
     if (!esAdmin) {
         cargando.classList.add("d-none");
         sinPermiso.classList.remove("d-none");
+        cargandoProductos.classList.add("d-none");
+        contenedorTablaProductos.classList.remove("d-none");
+        showMessage("No tiene permisos para acceder a esta sección. Será redirigido.", "error");
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 2500);
         return;
     }
 
