@@ -117,3 +117,9 @@ ferriStore/
 **Sprint 4**
 - Se define un rol para distinguir usuarios, como admin y cliente, lo que permite al primero auditar los pedidos confirmados por los clientes, y establecer su estado (pendiente, enviado, entregado, cancelado) a través de una pagina para esta finalidad.
 - El usuario que inicia sesión, en su pagina de perfil puede subir/actualizar su foto de perfil.
+- Se crea la colección Categoria para mejorar el diseño, habilitar y deshabilitar productos del catálogo
+- Se implementó el módulo de administración de productos dentro del panel de control (`admin.html`), utilizando **pestañas (Tabs)** de Bootstrap para separar la gestión de pedidos de la del catálogo.
+- **Creación y Edición unificada:** Un solo modal permite dar de alta nuevos productos o editar los existentes, cargando automáticamente sus datos actuales.
+- **Categorías dinámicas:** El selector de categorías se alimenta en tiempo real desde la colección `categorias` de Firestore, evitando tener que modificar el código HTML para agregar nuevas opciones.
+- **Baja lógica:** En lugar de borrar el documento de la base de datos, se actualiza el campo `activo` a `false`. Esto oculta el producto del catálogo público, pero conserva su historial.
+- **Sincronización automática:** Al guardar un producto, el estado de disponibilidad (`disponible`) se calcula automáticamente en función del stock ingresado (si el stock es 0, se marca como no disponible).

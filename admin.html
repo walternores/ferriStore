@@ -98,8 +98,36 @@
         </div>
     </nav>
     
-    <main class="flex-grow-1">
-        <div class="container py-5">
+   
+    <main class="flex-grow-1 container py-4">
+        
+        <!-- TÍTULO PRINCIPAL -->
+        <div class="mb-4">
+            <h1 class="h3 fw-bold">Panel de Administración</h1>
+            <p class="text-muted">Gestión de pedidos y el catálogo.</p>
+        </div>
+
+        <!-- PESTAÑAS (TABS) -->
+        <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active fw-bold" id="pedidos-tab" data-bs-toggle="tab" data-bs-target="#tab-pedidos" type="button" role="tab">
+                    <i class="bi bi-cart-check"></i> Gestión de Pedidos
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link fw-bold" id="productos-tab" data-bs-toggle="tab" data-bs-target="#tab-productos" type="button" role="tab">
+                    <i class="bi bi-box-seam"></i> Gestión de Productos
+                </button>
+            </li>
+        </ul>
+
+        <!-- PESTAÑA Gestión de Pedidos -->
+        <div class="tab-content" id="adminTabsContent">
+            
+            <div class="tab-pane fade show active" id="tab-pedidos" role="tabpanel">
+                
+            <!-- CONTENIDO DE LAS PESTAÑAS -->
+            <div class="container py-5">
 
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
                 <div>
@@ -163,8 +191,110 @@
             <!-- Listado de pedidos -->
             <div id="listadoPedidos" class="accordion d-none"></div>
 
+            </div>
+    
+                
+
+            </div>
+
+           
+            <!-- PESTAÑA: PRODUCTOS -->
+            
+            <div class="tab-pane fade" id="tab-productos" role="tabpanel">
+                
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h5 fw-bold mb-0">Catálogo de Productos</h2>
+                    <button class="btn btn-primary fw-bold" id="btnNuevoProducto">
+                        <i class="bi bi-plus-lg"></i> Nuevo Producto
+                    </button>
+                </div>
+
+                <!-- Spinner de carga de productos -->
+                <div id="cargandoProductos" class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="mt-2 text-muted">Cargando productos...</p>
+                </div>
+
+                <!-- Tabla de Productos -->
+                <div id="contenedorTablaProductos" class="card border-0 shadow-sm d-none">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th class="ps-4">Imagen</th>
+                                        <th>Nombre</th>
+                                        <th>Categoría</th>
+                                        <th class="text-end">Precio</th>
+                                        <th class="text-center">Stock</th>
+                                        <th class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listadoProductos"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </main>
+
+    <!-- MODAL PARA CREAR / EDITAR PRODUCTO (Va fuera del main, antes de los scripts) -->
+    <div class="modal fade" id="modalProducto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalTituloProducto">Nuevo Producto</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="formProducto">
+                        <input type="hidden" id="productoId">
+                        
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label class="form-label fw-bold">Nombre del Producto *</label>
+                                <input type="text" class="form-control" id="prodNombre" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Categoría *</label>
+                                <select class="form-select" id="prodCategoria" required>
+                                    <option value="">Cargando categorías...</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Precio ($) *</label>
+                                <input type="number" class="form-control" id="prodPrecio" min="0" step="0.01" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Stock *</label>
+                                <input type="number" class="form-control" id="prodStock" min="0" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">URL de la Imagen</label>
+                                <input type="url" class="form-control" id="prodImagen" placeholder="https://...">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Descripción</label>
+                                <textarea class="form-control" id="prodDescripcion" rows="3"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" id="prodActivo" checked>
+                                    <label class="form-check-label fw-bold" for="prodActivo">Producto Activo (Visible en catálogo)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary fw-bold" id="btnGuardarProducto">Guardar Producto</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer py-5 mt-auto bg-dark text-light">
         <div class="container">
