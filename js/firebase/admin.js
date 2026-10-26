@@ -6,6 +6,7 @@ import {
     getDocs,
     doc,
     getDoc,
+    addDoc,
     updateDoc,
     query,
     orderBy
@@ -15,6 +16,16 @@ import { showMessage } from "../showMessage.js";
 // =====================================================
 // ELEMENTOS DEL DOM
 // =====================================================
+
+// Gestión de productos
+const listadoProductos = document.querySelector("#listadoProductos");
+const cargandoProductos = document.querySelector("#cargandoProductos");
+const contenedorTablaProductos = document.querySelector("#contenedorTablaProductos");
+const formProducto = document.querySelector("#formProducto");
+const modalElemento = document.getElementById("modalProducto");
+const modal = new bootstrap.Modal(modalElemento);
+
+// Gestión de pedidos
 const cargando = document.querySelector("#cargando");
 const sinPermiso = document.querySelector("#sinPermiso");
 const sinPedidos = document.querySelector("#sinPedidos");
@@ -29,6 +40,7 @@ const btnLimpiar = document.querySelector("#btnLimpiar");
 // =====================================================
 let todosLosPedidos = [];
 let esAdmin = false;
+let modoEdicion = false;
 
 // =====================================================
 // VERIFICAR SI EL USUARIO ES ADMIN
@@ -255,6 +267,211 @@ btnLimpiar.addEventListener("click", () => {
     renderizarPedidos();
 });
 
+
+async function cargarProductos() {
+    try {
+        cargandoProductos.classList.remove("d-none");
+        contenedorTablaProductos.classList.add("d-none");
+        listadoProductos.innerHTML = "";
+
+        const q = query(collection(db, "producto"), orderBy("nombre", "asc"));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+            listadoProductos.innerHTML = `<tr><td colspan="6" class="text-center py-4">No hay productos cargados.</td></tr>`;
+        } else {
+            snapshot.forEach((docSnap) => {
+                const prod = docSnap.data();
+                const id = docSnap.id;
+                
+                // Si el producto está inactivo, lo mostramos con opacidad
+                const claseFila = prod.activo === false ? "opacity-50" : "";
+                
+                const badgeStock = prod.stock > 0 
+                    ? `<span class="badge text-bg-success">${prod.stock}</span>` 
+                    : `<span class="badge text-bg-danger">0</span>`;
+
+                const imgUrl = prod.imagen || 'assets/img/default.jpg';
+
+                listadoProductos.innerHTML += `
+                    <tr class="${claseFila}">
+                        <td class="ps-4">
+                            <img src="${imgUrl}" alt="${prod.nombre}" style="width: 50px; height: 50px; object-fit: cover;" class="rounded border">
+                        </td>
+                        <td class="fw-bold">${prod.nombre}</td>
+                        <td><span class="badge text-bg-light border">${prod.categoria}</span></td>
+                        <td class="text-end">$${Number(prod.precio).toLocaleString("es-UY")}</td>
+                        <td class="text-center">${badgeStock}</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary me-1 btn-editar-prod" data-id="${id}">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-${prod.activo === false ? 'success' : 'danger'} btn-toggle-prod" data-id="${id}" data-activo="${prod.activo}">
+                                <i class="bi bi-${prod.activo === false ? 'eye' : 'eye-slash'}"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        cargandoProductos.classList.add("d-none");
+        contenedorTablaProductos.classList.remove("d-none");
+        conectarBotones();
+
+    } catch (error) {
+        console.error("Error al cargar productos:", error);
+        cargandoProductos.innerHTML = `<div class="alert alert-danger">Error al cargar productos. Verificá las reglas de Firestore.</div>`;
+    }
+}
+
+// ==========================================
+// LÓGICA DEL MODAL (CREAR)
+// ==========================================
+document.querySelector("#btnNuevoProducto").addEventListener("click", () => {
+    modoEdicion = false;
+    formProducto.reset();
+    document.querySelector("#productoId").value = "";
+    document.querySelector("#modalTituloProducto").textContent = "Nuevo Producto";
+    document.querySelector("#prodActivo").checked = true;
+    modal.show();
+});
+
+// ==========================================
+// LÓGICA DEL MODAL (EDITAR Y HABILITAR/DESHABILITAR)
+// ==========================================
+function conectarBotones() {
+    // Botones Editar
+    document.querySelectorAll(".btn-editar-prod").forEach((boton) => {
+        boton.addEventListener("click", async () => {
+            const id = boton.dataset.id;
+            const docRef = doc(db, "producto", id);
+            const docSnap = await getDoc(docRef);
+            
+            if (docSnap.exists()) {
+                const prod = docSnap.data();
+                modoEdicion = true;
+                
+                document.querySelector("#productoId").value = id;
+                document.querySelector("#prodNombre").value = prod.nombre;
+                document.querySelector("#prodPrecio").value = prod.precio;
+                document.querySelector("#prodStock").value = prod.stock;
+                document.querySelector("#prodImagen").value = prod.imagen || "";
+                document.querySelector("#prodDescripcion").value = prod.descripcion || "";
+                document.querySelector("#prodActivo").checked = prod.activo !== false;
+
+                const selectCategoria = document.querySelector("#prodCategoria");
+                const categoriaGuardada = prod.categoria ? prod.categoria.trim() : "";
+
+                let opcionExiste = Array.from(selectCategoria.options).some(
+                (opt) => opt.value.toLowerCase() === categoriaGuardada.toLowerCase()
+                );
+
+                if (!opcionExiste && categoriaGuardada !== "") {
+                const nuevaOpcion = document.createElement("option");
+                nuevaOpcion.value = categoriaGuardada;
+                nuevaOpcion.textContent = categoriaGuardada;
+                selectCategoria.appendChild(nuevaOpcion);
+                }
+                selectCategoria.value = categoriaGuardada;
+
+                document.querySelector("#modalTituloProducto").textContent = "Editar Producto";
+                modal.show();
+            }
+        });
+    });
+
+    // Botones Habilitar/Deshabilitar (Baja lógica)
+    document.querySelectorAll(".btn-toggle-prod").forEach((boton) => {
+        boton.addEventListener("click", async () => {
+            const id = boton.dataset.id;
+            const estaActivo = boton.dataset.activo === "true";
+            
+            const accion = estaActivo ? "deshabilitar" : "habilitar";
+            if (!confirm(`¿Estás seguro de ${accion} este producto del catálogo?`)) return;
+
+            try {
+                const docRef = doc(db, "producto", id);
+                await updateDoc(docRef, { activo: !estaActivo });
+                cargarProductos(); // Recargar la tabla
+            } catch (error) {
+                console.error("Error al cambiar estado:", error);
+            }
+        });
+    });
+}
+
+// ==========================================
+// GUARDAR (CREAR O EDITAR)
+// ==========================================
+document.querySelector("#btnGuardarProducto").addEventListener("click", async () => {
+    if (!formProducto.checkValidity()) {
+        formProducto.reportValidity();
+        return;
+    }
+
+    const btnGuardar = document.querySelector("#btnGuardarProducto");
+    const id = document.querySelector("#productoId").value;
+
+    // Construimos el objeto con los datos
+    const stockVal = Number(document.querySelector("#prodStock").value);
+    const datosProducto = {
+        nombre: document.querySelector("#prodNombre").value.trim(),
+        categoria: document.querySelector("#prodCategoria").value,
+        precio: Number(document.querySelector("#prodPrecio").value),
+        stock: stockVal,
+        imagen: document.querySelector("#prodImagen").value.trim(),
+        descripcion: document.querySelector("#prodDescripcion").value.trim(),
+        activo: document.querySelector("#prodActivo").checked,
+        disponible: stockVal > 0 // Lógica automática
+    };
+
+    try {
+        btnGuardar.disabled = true;
+        btnGuardar.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Guardando...`;
+
+        if (modoEdicion) {
+            await updateDoc(doc(db, "producto", id), datosProducto);
+        } else {
+            await addDoc(collection(db, "producto"), datosProducto);
+        }
+
+        modal.hide();
+        cargarProductos();
+        alert(modoEdicion ? "Producto actualizado." : "Producto creado exitosamente.");
+
+    } catch (error) {
+        console.error("Error al guardar:", error);
+        alert("Error al guardar: " + error.message);
+    } finally {
+        btnGuardar.disabled = false;
+        btnGuardar.textContent = "Guardar Producto";
+    }
+});
+
+// Carga combobox de categoría
+
+async function cargarCategoriasEnSelect() {
+    const select = document.querySelector("#prodCategoria");
+    
+    try {
+        const snapshot = await getDocs(collection(db, "categoria"));
+        
+        select.innerHTML = '<option value="">Seleccione...</option>'; // Limpiamos el HTML
+        
+        snapshot.forEach((doc) => {
+            const cat = doc.data().nombre; 
+            const option = document.createElement("option");
+            option.value = cat;
+            option.textContent = cat;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Error al cargar categorías:", error);
+        select.innerHTML = '<option value="">Error al cargar</option>';
+    }
+}
+
 // =====================================================
 // INICIALIZACIÓN CON SESIÓN
 // =====================================================
@@ -275,4 +492,8 @@ onAuthStateChanged(auth, async (user) => {
 
     // Es admin: cargamos los pedidos
     cargarPedidos();
+    cargarProductos();
+    cargarCategoriasEnSelect();
+
 });
+
