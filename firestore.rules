@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper: ¿el usuario actual es admin?
+    function esAdmin() {
+      return request.auth != null && get(/databases/$(database)/documents/usuario/$(request.auth.uid)).data.rol == "admin";
+    }
+    
+    // PRODUCTOS: lectura pública, escritura solo autenticados
+    // (necesario para descontar el stock desde una transacción)
+    match /producto/{productoId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+
+      // RESEÑAS: subcolección de cada producto
+      match /resenias/{reseniaId} {
+        // Todos pueden leer, solo los logueados pueden crear
+        allow read: if true;
+        allow create: if request.auth != null
+                      && request.resource.data.uid == request.auth.uid
+                      && request.resource.data.puntuacion is number
+                      && request.resource.data.puntuacion >= 1
+                      && request.resource.data.puntuacion <= 5
+                      && request.resource.data.comentario is string
+                      && request.resource.data.comentario.size() <= 500;
+        // No se puede editar ni borrar (por ahora)
+        allow update, delete: if false;
+      }
+    }
+
+    // USUARIOS: cada uno accede solo a su propio documento
+    match /usuario/{userId} {
+      allow read: if request.auth != null && (request.auth.uid == userId || esAdmin());
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // CARRITOS: cada usuario accede solo a su propio carrito
+    match /carrito/{userId}/items/{itemId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // PEDIDOS: crear y leer solo los propios
+    match /pedido/{pedidoId} {
+      // Crear: cualquier logueado, solo su propio pedido
+      allow create: if request.auth != null
+                    && request.resource.data.uid == request.auth.uid;
+      // Leer: el dueño del pedido o un admin
+      allow read: if request.auth != null
+                  && (resource.data.uid == request.auth.uid || esAdmin());
+      // Actualizar: solo admins (para cambiar estado)
+      allow update: if esAdmin()
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['estado']);
+      // Borrar: nadie
+      allow delete: if false;
+    }
+
+     match /categoria/{categoriaId} {
+      allow read: if true;           // Cualquiera puede leerlas (para llenar los combos)
+      allow write: if esAdmin();     // Solo el admin puede crear/editar categorías
+    }
+  }
+}

@@ -20,11 +20,15 @@
                     class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav me-auto">
+                    <!-- Siempre visible (anónimo, cliente y admin) -->
                     <li class="nav-item"><a class="nav-link" data-page="inicio" href="index.html">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" data-page="catalogo" href="catalogo.html">Catálogo</a></li>
-                    <li class="nav-item"><a class="nav-link d-none grupoUsuario" data-page="carrito" href="carrito.html">Carrito</a></li>
-                    <li class="nav-item"><a class="nav-link d-none grupoUsuario" data-page="perfil" href="perfil.html">Mi perfil</a></li>
-                    <li class="nav-item"><a class="nav-link d-none grupoUsuario" data-page="admin" href="admin.html">Administración</a></li>
+                    <!-- Solo para usuarios logueados (cliente o admin) -->
+                    <li class="nav-item solo-logueado d-none"><a class="nav-link" data-page="carrito" href="carrito.html">Carrito</a></li>
+                    <li class="nav-item solo-logueado d-none"><a class="nav-link" data-page="perfil" href="perfil.html">Mi perfil</a></li>
+                    <li class="nav-item solo-logueado d-none"><a class="nav-link" data-page="pedidos" href="pedidos.html">Mis pedidos</a></li>
+                    <!-- Solo para admins -->
+                    <li class="nav-item solo-admin d-none"><a class="nav-link" data-page="admin" href="admin.html">Administración</a></li>
                 </ul>
                 <div class="d-flex align-items-right gap-3 py-2">
                 
@@ -58,34 +62,34 @@
                     <span id="nombreUsuario" class="fs-6 fw-bold"></span>
                 </button>
 
-                <ul class="dropdown-menu dropdown-menu-end shadow mt-2" aria-labelledby="dropdownUsuario">
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="perfil.html">
-                            <i class="bi bi-person fs-5"></i>
-                            Mi perfil
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="pedidos.html">
-                            <i class="bi bi-bag-check fs-5"></i>
-                            Mis pedidos
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="admin.html">
-                            <i class="bi bi-gear-wide-connected fs-5 text-primary"></i>
-                            Administrar
-                        </a>
-                    </li>
+                        <ul class="dropdown-menu dropdown-menu-end shadow mt-2" aria-labelledby="dropdownUsuario">
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center gap-2 py-1  solo-logueado d-none" href="perfil.html">
+                                    <i class="bi bi-person fs-5"></i>
+                                    Mi perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center gap-2 py-1  solo-logueado d-none" href="pedidos.html">
+                                    <i class="bi bi-bag-check fs-5"></i>
+                                    Mis pedidos
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center gap-2 py-1  solo-admin d-none" href="admin.html">
+                                    <i class="bi bi-gear-wide-connected fs-5 text-primary"></i>
+                                    Administrar
+                                </a>
+                            </li>
 
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <button class="dropdown-item text-danger d-flex align-items-center gap-2 py-2" type="button" id="btnCerrarSesion">
-                            <i class="bi bi-box-arrow-right fs-5"></i>
-                            Cerrar sesión
-                        </button>
-                    </li>
-                </ul>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <button class="dropdown-item text-danger d-flex align-items-center gap-2 py-1" type="button" id="btnCerrarSesion">
+                                    <i class="bi bi-box-arrow-right fs-5"></i>
+                                    Cerrar sesión
+                                </button>
+                            </li>
+                        </ul>
             </div>
 
 
@@ -103,9 +107,30 @@
                 <h1>Área privada de usuario</h1>
                 <p class="lead">Aquí puedes visualizar y modificar tu información personal.</p>
                 
-                <div class="locked-card">
-                    <h2 class="h4">Información del perfil</h2>
+                <div class="row g-4 locked-card">
                     
+                    
+                    <!-- Columna del avatar -->
+                        <div class="col-12 col-md-4 text-center">
+                            <div class="avatar-wrapper position-relative d-inline-block">
+                            
+                                <div id="avatarContenedor" 
+                                    class="bg-secondary bg-opacity-10 rounded-circle border border-secondary d-flex align-items-center justify-content-center"
+                                    style="width: 140px; height: 140px; overflow: hidden;">
+                                    <i class="bi bi-person-fill text-secondary" style="font-size: 80px;"></i>
+                                </div>
+                                <button type="button" 
+                                        class="btn btn-light border border-dark rounded-circle shadow-sm camera-btn shadow-sm position-absolute"
+                                        id="btnCambiarFoto"
+                                        title="Cambiar foto de perfil">
+                                    <i class="bi bi-camera-fill text-dark"></i>
+                                </button>
+                            </div>
+                           
+                        </div>
+
+                    <div class="col-12 col-md-7 order-2 order-md-1">
+                        <h2 class="h4">Información del perfil</h2>
                         <div class="d-flex align-items-center gap-4 border-bottom py-2">
                             <span><label>Nombre:</label></span>
                             <span><span id="perfilNombre">-</span></span>
@@ -124,7 +149,13 @@
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
                             </span>
-                        </div>           
+                        </div>
+                        
+                        <div class="d-flex align-items-center gap-4 border-bottom py-2">  
+                            <span><label>Rol:</label></span>
+                            <span><span id="perfilRol">-</span></span>
+                            
+                        </div>        
 
                         <div class="d-flex align-items-center gap-4 border-bottom py-2"> 
                             <span><label>Dirección de correo:</label></span>
@@ -148,6 +179,9 @@
                                 Eliminar cuenta
                             </button>
                         </div>
+                        </div>
+
+                        
                 </div>                
                
                 
@@ -386,34 +420,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalServicios" tabindex="-1" aria-labelledby="modalServiciosLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalServiciosLabel">
-                        Servicios adquiridos
-                    </h5>
-
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-
-                <div class="modal-body">
-                    <div id="listaServiciosAdquiridos">
-                        <p class="text-secondary mb-0">
-                            Cargando servicios...
-                        </p>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Cerrar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    
     <div class="modal fade" id="modalEliminarCuenta" tabindex="-1" aria-labelledby="modalEliminarCuentaLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

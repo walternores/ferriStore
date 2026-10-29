@@ -20,76 +20,80 @@
                     class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav me-auto">
+                    <!-- Siempre visible (anónimo, cliente y admin) -->
                     <li class="nav-item"><a class="nav-link" data-page="inicio" href="index.html">Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" data-page="catalogo" href="catalogo.html">Catálogo</a></li>
-                    <li class="nav-item"><a class="nav-link d-none grupoUsuario" data-page="carrito" href="carrito.html">Carrito</a></li>
-                    <li class="nav-item"><a class="nav-link d-none grupoUsuario" data-page="perfil" href="perfil.html">Mi perfil</a></li>
-                    <li class="nav-item"><a class="nav-link d-none grupoUsuario" data-page="admin" href="admin.html">Administración</a></li>
+                    <!-- Solo para usuarios logueados (cliente o admin) -->
+                    <li class="nav-item solo-logueado d-none"><a class="nav-link" data-page="carrito" href="carrito.html">Carrito</a></li>
+                    <li class="nav-item solo-logueado d-none"><a class="nav-link" data-page="perfil" href="perfil.html">Mi perfil</a></li>
+                    <li class="nav-item solo-logueado d-none"><a class="nav-link" data-page="pedidos" href="pedidos.html">Mis pedidos</a></li>
+                    <!-- Solo para admins -->
+                    <li class="nav-item solo-admin d-none"><a class="nav-link" data-page="admin" href="admin.html">Administración</a></li>
                 </ul>
                 <div class="d-flex align-items-right gap-3 py-2">
                 
-                <div class="d-flex align-items-center gap-2 ms-2 position-relative  d-none grupoUsuario">
-                <button id="btnIrCarrito" class="btn btn-light d-flex align-items-center position-relative"
-                    type="button" onclick="window.location.href='carrito.html'">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-cart" viewBox="0 0 16 16">
-                        <path
-                            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2">
-                        </path>
-                    </svg>
-                    <span id="contadorCarrito"
-                        class="position-absolute top-0 start-100 translate-middle badge border border-dark rounded-pill text-bg-warning">0</span>
-                </button>
-                </div>
+                    <div class="d-flex align-items-center gap-2 ms-2 position-relative  d-none grupoUsuario">
+                    <button id="btnIrCarrito" class="btn btn-light d-flex align-items-center position-relative"
+                        type="button" onclick="window.location.href='carrito.html'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-cart" viewBox="0 0 16 16">
+                            <path
+                                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2">
+                            </path>
+                        </svg>
+                        <span id="contadorCarrito"
+                            class="position-absolute top-0 start-100 translate-middle badge border border-dark rounded-pill text-bg-warning">0</span>
+                    </button>
+                    </div>
                 
-                <div class="d-flex align-items-center gap-2 logged-out d-none" id="grupIngresar">
-                       <button class="btn btn-outline-light btn-sm" id="btnLoginPlaceholder" onclick="window.location.href='ingresar.html'">Ingresar</button> 
-                </div>
-                
-                <div class="d-flex align-items-center gap-2 ms-2 logged-out d-none" id="grupoRegistrarse">
-                <button class="btn btn-outline-light btn-sm" id="btnRegisterPlaceholder" onclick="window.location.href='registrarse.html'">Registrarse</button>
-                </div>
+                    <div class="d-flex align-items-center gap-2 logged-out d-none" id="grupIngresar">
+                        <button class="btn btn-outline-light btn-sm" id="btnLoginPlaceholder" onclick="window.location.href='ingresar.html'">Ingresar</button> 
+                    </div>
+                    
+                    <div class="d-flex align-items-center gap-2 ms-2 logged-out d-none" id="grupoRegistrarse">
+                    <button class="btn btn-outline-light btn-sm" id="btnRegisterPlaceholder" onclick="window.location.href='registrarse.html'">Registrarse</button>
+                    </div>
             
 
-                <div class="d-flex align-items-center gap-2 ms-2 position-relative  d-none grupoUsuario">
-                <button class="btn btn-outline-light btn-sm dropdown-toggle d-flex align-items-center gap-2 py-2 px-3"
-                    type="button" id="dropdownUsuario" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
-                    <i class="bi bi-person-circle fs-5"></i>
-                    <span id="nombreUsuario" class="fs-6 fw-bold"></span>
-                </button>
-
-                <ul class="dropdown-menu dropdown-menu-end shadow mt-2" aria-labelledby="dropdownUsuario">
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="perfil.html">
-                            <i class="bi bi-person fs-5"></i>
-                            Mi perfil
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="pedidos.html">
-                            <i class="bi bi-bag-check fs-5"></i>
-                            Mis pedidos
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="admin.html">
-                            <i class="bi bi-gear-wide-connected fs-5 text-primary"></i>
-                            Administrar
-                        </a>
-                    </li>
-
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <button class="dropdown-item text-danger d-flex align-items-center gap-2 py-2" type="button" id="btnCerrarSesion">
-                            <i class="bi bi-box-arrow-right fs-5"></i>
-                            Cerrar sesión
+                    <div class="d-flex align-items-center gap-2 ms-2 position-relative  d-none grupoUsuario">
+                        <button class="btn btn-outline-light btn-sm dropdown-toggle d-flex align-items-center gap-2 py-2 px-3"
+                            type="button" id="dropdownUsuario" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+                            <i class="bi bi-person-circle fs-5"></i>
+                            <span id="nombreUsuario" class="fs-6 fw-bold"></span>
                         </button>
-                    </li>
-                </ul>
-            </div>
+
+                        <ul class="dropdown-menu dropdown-menu-end shadow mt-2" aria-labelledby="dropdownUsuario">
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center gap-2 py-1  solo-logueado d-none" href="perfil.html">
+                                    <i class="bi bi-person fs-5"></i>
+                                    Mi perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center gap-2 py-1  solo-logueado d-none" href="pedidos.html">
+                                    <i class="bi bi-bag-check fs-5"></i>
+                                    Mis pedidos
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center gap-2 py-1  solo-admin d-none" href="admin.html">
+                                    <i class="bi bi-gear-wide-connected fs-5 text-primary"></i>
+                                    Administrar
+                                </a>
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <button class="dropdown-item text-danger d-flex align-items-center gap-2 py-1" type="button" id="btnCerrarSesion">
+                                    <i class="bi bi-box-arrow-right fs-5"></i>
+                                    Cerrar sesión
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
 
 
-            </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -112,13 +116,13 @@
                                 <h2 class="fw-bold">Marcas destacadas</h2>
                             </div>
                             <div class="col-4">
-                                <div class="metric"><img src="assets/img/makita.png" alt="Las mejores marcas"></div>
+                                <div class="metric"><img src="https://res.cloudinary.com/wmcawajm/image/upload/v1791771072/makita.png" alt="Las mejores marcas"></div>
                             </div>
                             <div class="col-4">
-                                <div class="metric"><img src="assets/img/ingco1.png" alt="Las mejores marcas"></div>
+                                <div class="metric"><img src="https://res.cloudinary.com/wmcawajm/image/upload/v1791771072/ingco1.png" alt="Las mejores marcas"></div>
                             </div>
                             <div class="col-4">
-                                <div class="metric"><img src="assets/img/bosch.png" alt="Las mejores marcas"></div>
+                                <div class="metric"><img src="https://res.cloudinary.com/wmcawajm/image/upload/v1791771072/bosch.png" alt="Las mejores marcas"></div>
                             </div>
                         </div>
                     </div>
@@ -126,7 +130,7 @@
                         <div class="hero-card">
                             <div class="hero-card-header"><span class="dot"></span><span class="dot"></span><span
                                     class="dot"></span></div>
-                            <img src="assets/img/17.jpg" alt="ferriStore">
+                            <img src="https://res.cloudinary.com/wmcawajm/image/upload/v1791771072/17.jpg" alt="ferriStore">
                             <div class="floating-card"><span>IMPERMEABILIZANTE MAYORGOMA 20K
                                     BLANCO</span><strong>Producto
                                     destacado</strong><small>Hay existencia.</small></div>
@@ -151,7 +155,7 @@
     <div class="col-md-6 col-xl-3">
         <article class="placeholder-product">
             <div class="placeholder-image">
-                <img src="assets/img/16.jpg" class="img-fluid" alt="ARNES DE SEGURIDAD">
+                <img src="https://res.cloudinary.com/wmcawajm/image/upload/v1791771072/16.jpg" class="img-fluid" alt="ARNES DE SEGURIDAD">
             </div>
             <div class="card bg-dark text-light bg-opacity-75 h-100">
                 <div class="p-3 d-flex flex-column">
@@ -183,7 +187,7 @@
     <div class="col-md-6 col-xl-3">
         <article class="placeholder-product">
             <div class="placeholder-image">
-                <img src="assets/img/12.jpg" class="img-fluid" alt="ALARGUE ENROLLADOR">
+                <img src="https://res.cloudinary.com/wmcawajm/image/upload/v1791771072/12.jpg" class="img-fluid" alt="ALARGUE ENROLLADOR">
             </div>
             <div class="card bg-dark text-light bg-opacity-75 h-100">
                 <div class="p-3 d-flex flex-column">
@@ -213,7 +217,7 @@
     <div class="col-md-6 col-xl-3">
         <article class="placeholder-product">
             <div class="placeholder-image">
-                <img src="assets/img/13.jpg" class="img-fluid" alt="BARRAL DE DUCHA">
+                <img src="https://res.cloudinary.com/wmcawajm/image/upload/v1791771072/13.jpg" class="img-fluid" alt="BARRAL DE DUCHA">
             </div>
             <div class="card bg-dark text-light bg-opacity-75 h-100">
                 <div class="p-3 d-flex flex-column">
@@ -243,7 +247,7 @@
     <div class="col-md-6 col-xl-3">
         <article class="placeholder-product">
             <div class="placeholder-image">
-                <img src="assets/img/15.jpg" class="img-fluid" alt="BALDE PARA PINTOR">
+                <img src="https://res.cloudinary.com/wmcawajm/image/upload/v1791771072/15.jpg" class="img-fluid" alt="BALDE PARA PINTOR">
             </div>
             <div class="card bg-dark text-light bg-opacity-75 h-100">
                 <div class="p-3 d-flex flex-column">
@@ -273,7 +277,7 @@
     <div class="col-md-6 col-xl-3">
         <article class="placeholder-product">
             <div class="placeholder-image">
-                <img src="assets/img/14.jpg" class="img-fluid" alt="AMOLADORA ANGULAR">
+                <img src="https://res.cloudinary.com/wmcawajm/image/upload/v1791771072/14.jpg" class="img-fluid" alt="AMOLADORA ANGULAR">
             </div>
             <div class="card bg-dark text-light bg-opacity-75 h-100">
                 <div class="p-3 d-flex flex-column">
@@ -303,7 +307,7 @@
     <div class="col-md-6 col-xl-3">
         <article class="placeholder-product">
             <div class="placeholder-image">
-                <img src="assets/img/11.jpg" class="img-fluid" alt="DISCO DIAMANTADO">
+                <img src="https://res.cloudinary.com/wmcawajm/image/upload/v1791771072/11.jpg" class="img-fluid" alt="DISCO DIAMANTADO">
             </div>
             <div class="card bg-dark text-light bg-opacity-75 h-100">
                 <div class="p-3 d-flex flex-column">
@@ -444,12 +448,11 @@
                                 class="text-decoration-none text-light text-opacity-75 hover-white">Inicio</a></li>
                         <li class="mb-2"><a href="catalogo.html"
                                 class="text-decoration-none text-light text-opacity-75 hover-white">Catálogo</a></li>
-                        <li class="mb-2"><a href="producto.html"
-                                class="text-decoration-none text-light text-opacity-75 hover-white">Productos</a></li>
+                        <li class="mb-2"><a href="pedidos.html"
+                                class="text-decoration-none text-light text-opacity-75 hover-white solo-logueado d-none">Mis pedidos</a></li>
                         <li class="mb-2"><a href="carrito.html"
-                                class="text-decoration-none text-light text-opacity-75 hover-white">Carrito</a></li>
-                        <li><a href="perfil.html" class="text-decoration-none text-light text-opacity-75 hover-white">Mi
-                                perfil</a></li>
+                                class="text-decoration-none text-light text-opacity-75 hover-white solo-logueado d-none">Carrito</a></li>
+                        <li><a href="perfil.html" class="text-decoration-none text-light text-opacity-75 hover-white solo-logueado d-none">Mi perfil</a></li>
                     </ul>
                 </div>
 

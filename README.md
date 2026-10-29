@@ -3,9 +3,11 @@
 **Nombre del estudiante:** [Walter Ramón Nores Benítez]
 
 ---
+![ferriStore](assets/logo/ferriStore.png)
+---
 
 ## Descripción del E-commerce
-**ferriStore** es un proyecto de interfaz de usuario (UI) para un e-commerce de ferretería y herramientas. En su estado actual (Sprint 1), se ha desarrollado una landing page estática y responsiva utilizando HTML, CSS y el framework Bootstrap, dando los primeros pasos en la identidad visual y la estructura de navegación del sitio.
+**ferriStore** es una plataforma de comercio electrónico completa y dinámica para la venta de ferretería y herramientas. El proyecto ha evolucionado desde una landing page estática hasta convertirse en una aplicación web integral (Full Stack simulado) que incluye autenticación de usuarios, gestión de carrito, pasarela de pagos, panel de administración y almacenamiento en la nube.
 
 ---
 
@@ -17,11 +19,11 @@ El diseño está orientado a:
 ---
 
 ## Categorías de Productos
-Las categorías ya definidas en el menú de navegación del sitio son:
+Las categorías se gestionan dinámicamente desde Firestore (colección `categorias`), pero el catálogo abarca:
 - Herramientas manuales
 - Herramientas eléctricas y a batería
 - Materiales de construcción
-- Fontanería (plomería) y tuberías
+- Fontanería y tuberías
 - Electricidad e iluminación
 - Pinturas y acabados
 - Jardinería y exteriores
@@ -33,9 +35,15 @@ Las categorías ya definidas en el menú de navegación del sitio son:
 ## Tecnologías Utilizadas
 - **HTML5:** Estructura semántica y accesible.
 - **CSS3:** Estilos personalizados y diseño responsive.
-- **Bootstrap 5:** Framework para el sistema de grillas, componentes (navbar, cards, badges, modales, toasts) y utilidades.
-- **Bootstrap Icons:** Iconografía vectorial para una interfaz moderna.
-- **JavaScript (Vanilla):** Lógica de aplicación, manipulación del DOM, eventos, métodos de arreglos (`filter`, `find`, `forEach`, `map`, `slice`), `URLSearchParams` para la lectura de parámetros en la URL y `LocalStorage` (próximamente).
+- **Bootstrap 5:** Framework para el sistema de grillas, componentes (navbar, cards, modales, tabs, toasts) y utilidades.
+- **Bootstrap Icons:** Iconografía vectorial.
+- **JavaScript (Vanilla, ES6+):** Lógica de aplicación, manipulación del DOM, métodos de arreglos, transacciones y módulos (`import/export`).
+- **Firebase (v12):** 
+  - **Authentication:** Registro, inicio de sesión y gestión de usuarios.
+  - **Firestore:** Base de datos NoSQL en tiempo real para productos, pedidos, carritos y usuarios.
+- **Cloudinary:** Servicio en la nube para el almacenamiento y optimización de imágenes (fotos de perfil y productos).
+- **Git y GitHub:** Control de versiones.
+
 
 ---
 
@@ -44,40 +52,39 @@ Las categorías ya definidas en el menú de navegación del sitio son:
 ```text
 ferriStore/
 ├── index.html               # Página de inicio (landing)
-├── catalogo.html            # Catálogo de productos (dinámico)
-├── producto.html            # Detalle individual de producto, comentarios y valoraciones de usuarios
+├── catalogo.html            # Catálogo de productos (dinámico desde Firestore)
+├── producto.html            # Detalle individual de producto, comentarios y valoraciones
 ├── carrito.html             # Página de carrito
 ├── perfil.html              # Página de perfil de usuario
-├── pedidos.html             # Página que muestra al usuario el historial de pedidos desde Firebase
-├── admin.html               # Panel de administración (en desarrollo)
-├── registrarse.html         # Página de registro de usuario
-├── ingresar.html            # Página de inicio de sesión
+├── admin.html               # Panel de administración (Pedidos y Productos) con Tabs
+├── pedidos.html             # Historial de pedidos del usuario
+├── registrarse.html         # Registro de usuario
+├── ingresar.html            # Inicio de sesión
+├── firestore.rules          # Reglas de seguridad de la base de datos
 ├── css/
 │   └── styles.css           # Estilos globales y personalizados
 ├── js/
-│   ├── datos.js             # Almacena los datos de productos localmente
 │   ├── validacionesRegistro.js  # Valida contraseñas 
-│   ├── showMessage.js       # Módulo para mensajes emergentes (toast), notificaciones y avisos en la UI
-│   ├── catalogo.js          # Array de productos, renderizado, filtros y búsqueda (LocalStore)
-│   └── producto.js          # Lógica para mostrar el detalle de un producto (Array local)
-│   └── carrito.js           # Lógica para mostrar el carrito de compras (LocalStore)
-│   └── firebase
-│       └── producto.js      # Lógica para mostrar el detalle de un producto, comentarios y valoraciones de usuario (Firestore)
-│       └── catalogo.js      # Lógica para mostrar el catálogo de productos (Firestore) 
-│       └── carrito.js       # Lógica para mostrar el carrito de compras (Firestore) 
-│       └── pedidos.js        # Lógica para mostrar el historial de pedidos (Firestore)
-│       └── app.js           # Lógica para inicio y cierre de sesión (Firestore)
-│       └── perfil.js        # Lógica para mostrar el perfil al usuario que inicia sesión (Firestore)
-│       └── registroUsuario.js # Lógica para registro de usuario anónimo (Firestore)
-│       └── resenias.js      # Lógica para establecer reña de productos por parte de usuarios registrados (Firestore)
-│       └── destacados.js    # Lógica opcion "agregar al carrito" en productos destacados ubicados en index.html (Firestore) 
-│       └── config.js        # Define la configuración para conectar con Firebase (Firestore)
+│   ├── showMessage.js       # Módulo para mensajes emergentes (toast)
+│   ├── firebase/
+│   │   ├── config.js        # Configuración de Firebase
+│   │   ├── app.js           # Lógica global de sesión (navbar)
+│   │   ├── catalogo.js      # Renderizado de catálogo desde Firestore
+│   │   ├── producto.js      # Detalle del producto, reseñas y valoraciones
+│   │   ├── carrito.js       # Lógica del carrito y transacciones de stock
+│   │   ├── pedidos.js       # Historial de pedidos del usuario
+│   │   ├── perfil.js        # Actualización de perfil y subida de imagen
+│   │   ├── registroUsuario.js # Registro de nuevos usuarios
+│   │   ├── resenias.js      # Gestión de comentarios y estrellas
+│   │   ├── destacados.js    # Botones de "agregar" en el index
+│   │   └── admin.js         # Lógica del panel de administración (pedidos, productos, usuarios)
 ├── assets/
 │   ├── img/                 # Imágenes de productos
 │   ├── icons/               # Íconos personalizados
 │   └── logo/                # Logotipo de la marca
 ├── README.md                # Documentación del proyecto
-└── .gitignore               # Archivos a ignorar en el control de versiones
+└── .gitignore               # Archivos ignorados
+
 ```
 ---
 
@@ -93,10 +100,10 @@ ferriStore/
 - Se permite buscar y filtrar en el catálogo.
 - Se muestra el detalle de un producto seleccionado.
 - Se permite agregar los productos al carrito, quitar y modificar la cantidad, asi como calcular el total de la compra.
-- Se genera persistencia de la compra en LocalStorage.
+- Se genera persistencia de la compra en LocalStorage (migrado luego a Firestore).
 
 **Sprint 3**
-- Se genera posibilidad de registro de usuario.
+- Autenticación: Registro, inicio y cierre de sesión con Firebase Auth.
 - El sistema permite iniciar y cerrar sesión (con usuario y contraseña).
 - Se habilita acceso a perfil de usuario y modificar información personal.
 - Desde el perfil de usuario se permite cambio de contraseña.
@@ -109,3 +116,22 @@ ferriStore/
 - El pedido al ser confirmado (usando transacción) mantiene actualizado el stock en Firebase de acuerdo a los productos adquiridos en los pedidos confirmados.
 - El sistema permite realizar comentarios y valoraciones (1-5) del producto a usuarios que inicien sesión. 
  
+
+**Sprint 4**
+- Se define un rol para distinguir usuarios, como admin y cliente, lo que permite al primero auditar los pedidos confirmados por los clientes, y establecer su estado (pendiente, enviado, entregado, cancelado) a través de una pagina para esta finalidad.
+- Cloudinary (Imágenes): Integración para la subida y actualización de fotos de perfil desde el dispositivo del usuario. El usuario que inicia sesión, en su pagina de perfil puede subir/actualizar su foto de perfil.
+- Se crea la colección Categoria para mejorar el diseño, habilitar y deshabilitar productos del catálogo
+- Se implementó el módulo de administración de productos dentro del panel de control (`admin.html`), utilizando **pestañas (Tabs)** de Bootstrap para separar la gestión de pedidos de la del catálogo.
+- **Creación y Edición unificada:** Un solo modal permite dar de alta nuevos productos o editar los existentes, cargando automáticamente sus datos actuales.
+- **Categorías dinámicas:** El selector de categorías se alimenta en tiempo real desde la colección `categorias` de Firestore, evitando tener que modificar el código HTML para agregar nuevas opciones.
+- **Baja lógica:** En lugar de borrar el documento de la base de datos, se actualiza el campo `activo` a `false`. Esto oculta el producto del catálogo público, pero conserva su historial.
+- **Sincronización automática:** Al guardar un producto, el estado de disponibilidad (`disponible`) se calcula automáticamente en función del stock ingresado (si el stock es 0, se marca como no disponible).
+
+- Roles y Permisos: Implementación de roles (cliente y admin).
+- Panel de Administración (admin.html):
+    - Gestión de Pedidos (cambios de estado: pendiente, enviado, entregado).
+    - Gestión de Productos (CRUD): Creación y edición unificada en un modal, carga de imágenes a Cloudinary, y baja lógica (activo: false).
+    - Categorías Dinámicas: El selector de categorías se alimenta desde Firestore.
+    - Estadísticas: Dashboard con métricas de ventas, usuarios y stock.
+- Seguridad: Implementación de reglas estrictas en firestore.rules para proteger las colecciones según el rol del usuario.
+- Protección de rutas: Validación en JavaScript para evitar que usuarios sin permisos accedan a admin.html.

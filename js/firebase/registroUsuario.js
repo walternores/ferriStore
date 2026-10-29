@@ -157,7 +157,8 @@ if (form) {
       await setDoc(doc(db, "usuario", uid), {
         nombre,
         apellido,
-        email
+        email,
+        rol: "cliente",
       });
 
       mostrarRegistroExitoso(() => {
