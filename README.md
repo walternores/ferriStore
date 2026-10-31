@@ -1,6 +1,9 @@
 # ferriStore - E-commerce de Herramientas
 
 **Nombre del estudiante:** [Walter Ramón Nores Benítez]
+---
+
+[Sitio web Ferristore](https://walternores.github.io/ferriStore/)
 
 ---
 ![ferriStore](assets/logo/ferriStore.png)
@@ -135,3 +138,16 @@ ferriStore/
     - Estadísticas: Dashboard con métricas de ventas, usuarios y stock.
 - Seguridad: Implementación de reglas estrictas en firestore.rules para proteger las colecciones según el rol del usuario.
 - Protección de rutas: Validación en JavaScript para evitar que usuarios sin permisos accedan a admin.html.
+
+---
+
+## Cuentas precargadas:
+
+- Cuenta cliente: 
+  - Usuario: jrios@gmail.com
+  - Password: Juliorios1
+
+- Cuenta administrador:
+  - Usuario: wnores@gmail.com
+  - Password: Walternores1
+---
